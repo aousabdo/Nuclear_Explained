@@ -1,11 +1,17 @@
 import { create } from 'zustand'
 
-interface AppState {
+type Mode = 'casual' | 'expert'
+
+interface AppStore {
   activeSection: string
   setActiveSection: (id: string) => void
+  mode: Mode
+  setMode: (mode: Mode) => void
 }
 
-export const useAppStore = create<AppState>((set) => ({
-  activeSection: 'hero',
+export const useAppStore = create<AppStore>((set) => ({
+  activeSection: '',
   setActiveSection: (id) => set({ activeSection: id }),
+  mode: 'casual',
+  setMode: (mode) => set({ mode }),
 }))

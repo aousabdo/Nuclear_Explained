@@ -1,7 +1,10 @@
 import { Suspense, lazy } from 'react'
 import { Navigation } from './components/layout/Navigation'
+import { ModeToggle } from './components/layout/ModeToggle'
 import { TopoBackground } from './components/layout/TopoBackground'
+import { useAppStore } from './hooks/useAppStore'
 
+// Expert mode sections
 const Hero = lazy(() => import('./sections/S01_Hero/Hero'))
 const Basics = lazy(() => import('./sections/S02_Basics/Basics'))
 const Effects = lazy(() => import('./sections/S03_Effects/Effects'))
@@ -13,6 +16,13 @@ const IranDeepDive = lazy(() => import('./sections/S08_Iran/IranDeepDive'))
 const CubeRoot = lazy(() => import('./sections/S09_CubeRoot/CubeRoot'))
 const History = lazy(() => import('./sections/S10_History/History'))
 
+// Casual mode sections
+const Moment = lazy(() => import('./sections/SC02_Moment/Moment'))
+const Destruction = lazy(() => import('./sections/SC03_Destruction/Destruction'))
+const Scale = lazy(() => import('./sections/SC04_Scale/Scale'))
+const CasualFallout = lazy(() => import('./sections/SC05_CasualFallout/CasualFallout'))
+const Impact = lazy(() => import('./sections/SC06_Impact/Impact'))
+
 function SectionLoader() {
   return (
     <div className="min-h-[50vh] flex items-center justify-center">
@@ -22,22 +32,39 @@ function SectionLoader() {
 }
 
 function App() {
+  const mode = useAppStore((s) => s.mode)
+
   return (
     <div className="relative">
       <TopoBackground />
       <Navigation />
+      <ModeToggle />
 
       <main className="relative z-10 lg:pt-0 pt-12 lg:pl-12">
+        {/* Hero is shared in both modes */}
         <Suspense fallback={<SectionLoader />}><Hero /></Suspense>
-        <Suspense fallback={<SectionLoader />}><Basics /></Suspense>
-        <Suspense fallback={<SectionLoader />}><Effects /></Suspense>
-        <Suspense fallback={<SectionLoader />}><HeightOfBurst /></Suspense>
-        <Suspense fallback={<SectionLoader />}><BlastRadius /></Suspense>
-        <Suspense fallback={<SectionLoader />}><TacticalStrategic /></Suspense>
-        <Suspense fallback={<SectionLoader />}><Fallout /></Suspense>
-        <Suspense fallback={<SectionLoader />}><IranDeepDive /></Suspense>
-        <Suspense fallback={<SectionLoader />}><CubeRoot /></Suspense>
-        <Suspense fallback={<SectionLoader />}><History /></Suspense>
+
+        {mode === 'casual' ? (
+          <>
+            <Suspense fallback={<SectionLoader />}><Moment /></Suspense>
+            <Suspense fallback={<SectionLoader />}><Destruction /></Suspense>
+            <Suspense fallback={<SectionLoader />}><Scale /></Suspense>
+            <Suspense fallback={<SectionLoader />}><CasualFallout /></Suspense>
+            <Suspense fallback={<SectionLoader />}><Impact /></Suspense>
+          </>
+        ) : (
+          <>
+            <Suspense fallback={<SectionLoader />}><Basics /></Suspense>
+            <Suspense fallback={<SectionLoader />}><Effects /></Suspense>
+            <Suspense fallback={<SectionLoader />}><HeightOfBurst /></Suspense>
+            <Suspense fallback={<SectionLoader />}><BlastRadius /></Suspense>
+            <Suspense fallback={<SectionLoader />}><TacticalStrategic /></Suspense>
+            <Suspense fallback={<SectionLoader />}><Fallout /></Suspense>
+            <Suspense fallback={<SectionLoader />}><IranDeepDive /></Suspense>
+            <Suspense fallback={<SectionLoader />}><CubeRoot /></Suspense>
+            <Suspense fallback={<SectionLoader />}><History /></Suspense>
+          </>
+        )}
       </main>
 
       <footer id="footer" className="relative z-10 border-t border-border py-16 px-4">

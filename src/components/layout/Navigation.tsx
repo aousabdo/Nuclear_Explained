@@ -1,8 +1,12 @@
 import { SECTIONS } from '../../config/sections'
+import { CASUAL_SECTIONS } from '../../config/casualSections'
 import { useAppStore } from '../../hooks/useAppStore'
 
 export function Navigation() {
   const activeSection = useAppStore((s) => s.activeSection)
+  const mode = useAppStore((s) => s.mode)
+
+  const sections = mode === 'casual' ? CASUAL_SECTIONS : SECTIONS
 
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
@@ -12,7 +16,7 @@ export function Navigation() {
     <>
       {/* Desktop: fixed left sidebar dots */}
       <nav className="hidden lg:flex fixed left-4 top-1/2 -translate-y-1/2 z-50 flex-col gap-3">
-        {SECTIONS.map((section) => (
+        {sections.map((section) => (
           <button
             key={section.id}
             onClick={() => scrollToSection(section.id)}
@@ -37,7 +41,7 @@ export function Navigation() {
       {/* Mobile: top bar */}
       <nav className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-bg-primary/90 backdrop-blur-sm border-b border-border">
         <div className="flex overflow-x-auto gap-1 px-3 py-2 scrollbar-hide">
-          {SECTIONS.map((section) => (
+          {sections.map((section) => (
             <button
               key={section.id}
               onClick={() => scrollToSection(section.id)}
