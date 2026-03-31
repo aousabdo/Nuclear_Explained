@@ -1,23 +1,24 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { SectionWrapper } from '../../components/layout/SectionWrapper'
+import { useTranslation } from '../../hooks/useTranslation'
 
 type Tab = 'fission' | 'fusion'
 
 export default function Basics() {
   const [activeTab, setActiveTab] = useState<Tab>('fission')
+  const t = useTranslation()
+  const tb = t.expert.basics
 
   return (
     <SectionWrapper id="basics" fullHeight={false}>
       <div className="space-y-8">
         <div className="space-y-2">
           <h2 className="text-3xl md:text-4xl font-bold">
-            Fission vs. Fusion — How Nuclear Weapons Work
+            {tb.title}
           </h2>
           <p className="text-text-secondary max-w-3xl">
-            Nuclear weapons release energy by converting mass to energy (E = mc²) through two processes:
-            splitting heavy atoms (<span className="text-radiation font-medium">fission</span>) or
-            combining light atoms (<span className="text-blast font-medium">fusion</span>).
+            {tb.subtitle}
           </p>
         </div>
 
@@ -35,7 +36,7 @@ export default function Basics() {
                   : 'bg-bg-card text-text-secondary border border-border hover:text-text-primary'
               }`}
             >
-              {tab === 'fission' ? 'Fission' : 'Fusion'}
+              {tab === 'fission' ? tb.tabFission : tb.tabFusion}
             </button>
           ))}
         </div>
@@ -51,7 +52,7 @@ export default function Basics() {
             >
               {/* Fission Diagram */}
               <div className="bg-bg-secondary rounded-lg border border-border p-6">
-                <h3 className="text-lg font-semibold text-radiation mb-4">Chain Reaction</h3>
+                <h3 className="text-lg font-semibold text-radiation mb-4">{tb.fission.diagramTitle}</h3>
                 <svg viewBox="0 0 400 300" className="w-full">
                   {/* Incoming neutron */}
                   <motion.circle cx={60} cy={150} r={6} fill="#22c55e"
@@ -93,36 +94,39 @@ export default function Basics() {
 
               {/* Fission explanation */}
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-text-primary">Nuclear Fission</h3>
+                <h3 className="text-lg font-semibold text-text-primary">{tb.fission.sectionTitle}</h3>
                 <div className="space-y-3 text-text-secondary text-sm leading-relaxed">
+                  <p>{tb.fission.body1}</p>
                   <p>
-                    A neutron strikes a heavy nucleus (uranium-235 or plutonium-239), which splits into
-                    two lighter fragments plus 2-3 additional neutrons and ~200 MeV of energy.
-                  </p>
-                  <p>
-                    Those released neutrons can split more nuclei, creating a <span className="text-radiation font-medium">chain reaction</span>.
-                    In a weapon, this chain reaction is uncontrolled and completes in about a microsecond.
+                    {tb.fission.body2.split('chain reaction').length > 1 ? (
+                      <>
+                        {tb.fission.body2.split('chain reaction')[0]}
+                        <span className="text-radiation font-medium">
+                          {t.expert.basics.tabFission === 'Fission' ? 'chain reaction' : 'تفاعل متسلسل'}
+                        </span>
+                        {tb.fission.body2.split('chain reaction')[1]}
+                      </>
+                    ) : tb.fission.body2}
                   </p>
 
                   <div className="bg-bg-card rounded p-3 border border-border space-y-2">
-                    <h4 className="text-xs font-semibold text-text-primary uppercase tracking-wider">Two Assembly Methods</h4>
+                    <h4 className="text-xs font-semibold text-text-primary uppercase tracking-wider">{tb.fission.assemblyTitle}</h4>
                     <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <p className="text-xs font-medium text-thermal">Gun-Type (Little Boy)</p>
-                        <p className="text-xs text-text-muted">Fires one subcritical mass into another. Simple but inefficient (~1.5% of material fissions).</p>
+                        <p className="text-xs font-medium text-thermal">{tb.fission.gunType}</p>
+                        <p className="text-xs text-text-muted">{tb.fission.gunTypeDesc}</p>
                       </div>
                       <div>
-                        <p className="text-xs font-medium text-blast">Implosion (Fat Man)</p>
-                        <p className="text-xs text-text-muted">Symmetric explosive lenses compress a sphere to supercriticality. More efficient (~17%).</p>
+                        <p className="text-xs font-medium text-blast">{tb.fission.implosion}</p>
+                        <p className="text-xs text-text-muted">{tb.fission.implosionDesc}</p>
                       </div>
                     </div>
                   </div>
 
                   <div className="bg-bg-card rounded p-3 border border-border">
                     <p className="text-xs text-text-muted">
-                      <span className="text-text-primary font-medium">Key stat: </span>
-                      Only ~57 grams of material fissions per kiloton of yield.
-                      A 15 kt weapon like Little Boy fissioned less than 1 kg of its 64 kg of uranium.
+                      <span className="text-text-primary font-medium">{tb.fission.keyStat} </span>
+                      {tb.fission.keyStatText}
                     </p>
                   </div>
                 </div>
@@ -138,7 +142,7 @@ export default function Basics() {
             >
               {/* Fusion Diagram */}
               <div className="bg-bg-secondary rounded-lg border border-border p-6">
-                <h3 className="text-lg font-semibold text-blast mb-4">D-T Fusion Reaction</h3>
+                <h3 className="text-lg font-semibold text-blast mb-4">{tb.fusion.diagramTitle}</h3>
                 <svg viewBox="0 0 400 300" className="w-full">
                   {/* Deuterium */}
                   <motion.circle cx={100} cy={130} r={20} fill="rgba(59, 130, 246, 0.15)" stroke="#3b82f6" strokeWidth={2}
@@ -176,32 +180,22 @@ export default function Basics() {
 
               {/* Fusion explanation */}
               <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-text-primary">Thermonuclear Fusion</h3>
+                <h3 className="text-lg font-semibold text-text-primary">{tb.fusion.sectionTitle}</h3>
                 <div className="space-y-3 text-text-secondary text-sm leading-relaxed">
-                  <p>
-                    Light nuclei (deuterium and tritium, isotopes of hydrogen) fuse into helium-4,
-                    releasing a neutron and 17.6 MeV of energy per reaction.
-                  </p>
-                  <p>
-                    While each fusion reaction releases less energy than fission, thermonuclear weapons
-                    can use <span className="text-blast font-medium">much more fuel</span> — there's
-                    no critical mass limit for fusion fuel, only the engineering challenge of compressing it.
-                  </p>
+                  <p>{tb.fusion.body1}</p>
+                  <p>{tb.fusion.body2}</p>
 
                   <div className="bg-bg-card rounded p-3 border border-border space-y-2">
-                    <h4 className="text-xs font-semibold text-text-primary uppercase tracking-wider">Teller-Ulam Design</h4>
+                    <h4 className="text-xs font-semibold text-text-primary uppercase tracking-wider">{tb.fusion.tellerUlamTitle}</h4>
                     <p className="text-xs text-text-muted">
-                      Modern thermonuclear weapons use a <span className="text-text-primary">fission primary</span> (the "trigger")
-                      to generate X-rays that compress and heat a <span className="text-text-primary">fusion secondary</span> (the "physics package").
-                      The X-rays travel through a radiation channel, imploding the secondary to fusion temperatures (~100 million K).
+                      {tb.fusion.tellerUlamDesc}
                     </p>
                   </div>
 
                   <div className="bg-bg-card rounded p-3 border border-border">
                     <p className="text-xs text-text-muted">
-                      <span className="text-text-primary font-medium">Yield comparison: </span>
-                      Fission weapons are limited to ~500 kt (practical). Thermonuclear weapons have been
-                      tested up to 50 Mt (Tsar Bomba) and theoretically have no upper yield limit.
+                      <span className="text-text-primary font-medium">{tb.fusion.yieldComparison} </span>
+                      {tb.fusion.yieldComparisonText}
                     </p>
                   </div>
                 </div>

@@ -8,11 +8,15 @@ import { optimalHOB, effectiveGroundRadius } from '../../lib/physics/hob'
 import { fireballRadius } from '../../lib/physics/fireball'
 import { formatYield, formatDistance } from '../../lib/format'
 import { useDebouncedValue } from '../../hooks/useDebouncedValue'
+import { useTranslation } from '../../hooks/useTranslation'
 
 export default function HeightOfBurst() {
   const [yieldKt, setYieldKt] = useState(15)
   const [hobMeters, setHobMeters] = useState(580)
   const [targetPsi, setTargetPsi] = useState(5)
+
+  const t = useTranslation()
+  const th = t.expert.hob
 
   const debouncedYield = useDebouncedValue(yieldKt, 100)
   const debouncedHOB = useDebouncedValue(hobMeters, 50)
@@ -41,26 +45,24 @@ export default function HeightOfBurst() {
       <div className="space-y-6">
         <div className="space-y-2">
           <h2 className="text-3xl md:text-4xl font-bold">
-            Height of Burst — The Critical Variable
+            {th.title}
           </h2>
           <p className="text-text-secondary max-w-3xl">
-            The height at which a nuclear weapon detonates dramatically affects its destructive radius.
-            An airburst creates a <span className="text-blast font-medium">Mach stem</span> — a reinforced
-            shock wave formed when the incident blast reflects off the ground and merges with the original wave.
+            {th.subtitle}
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-6">
           {/* Controls */}
           <div className="space-y-4 bg-bg-secondary rounded-lg p-4 border border-border">
-            <h3 className="text-sm font-semibold text-text-primary uppercase tracking-wider">Parameters</h3>
+            <h3 className="text-sm font-semibold text-text-primary uppercase tracking-wider">{th.parametersLabel}</h3>
 
             <Slider
               min={0.1}
               max={10000}
               value={yieldKt}
               onChange={setYieldKt}
-              label="Yield"
+              label={th.yieldLabel}
               logarithmic
               accentColor="#3b82f6"
               formatValue={formatYield}
@@ -71,14 +73,14 @@ export default function HeightOfBurst() {
               max={maxHOB}
               value={hobMeters}
               onChange={setHobMeters}
-              label="Height of Burst"
+              label={th.hobLabel}
               unit="m"
               accentColor="#f59e0b"
               formatValue={(v) => `${Math.round(v).toLocaleString()} m`}
             />
 
             <div className="space-y-1.5">
-              <label className="text-sm text-text-secondary font-medium">Target Overpressure</label>
+              <label className="text-sm text-text-secondary font-medium">{th.targetOverpressureLabel}</label>
               <div className="flex flex-wrap gap-1.5">
                 {[1, 2, 5, 10, 20].map(psi => (
                   <button
@@ -100,31 +102,29 @@ export default function HeightOfBurst() {
               onClick={() => setHobMeters(stats.optimalHOB)}
               className="w-full text-sm px-3 py-2 rounded bg-blast/10 border border-blast/30 text-blast hover:bg-blast/20 transition-colors"
             >
-              Set to Optimal HOB ({Math.round(stats.optimalHOB)} m)
+              {th.setOptimalButton} ({Math.round(stats.optimalHOB)} m)
             </button>
 
             {/* Presets */}
             <div className="space-y-1.5">
-              <span className="text-sm text-text-secondary font-medium">Presets</span>
+              <span className="text-sm text-text-secondary font-medium">{th.presetsLabel}</span>
               <button
                 onClick={() => { setYieldKt(15); setHobMeters(580); setTargetPsi(5) }}
                 className="w-full text-xs px-2 py-1.5 rounded bg-bg-card border border-border text-text-secondary hover:text-text-primary hover:border-text-muted transition-colors text-left"
               >
-                Hiroshima: 15 kt at 580 m
+                {th.presetHiroshima}
               </button>
               <button
                 onClick={() => { setYieldKt(475); setHobMeters(0); setTargetPsi(5) }}
                 className="w-full text-xs px-2 py-1.5 rounded bg-bg-card border border-border text-text-secondary hover:text-text-primary hover:border-text-muted transition-colors text-left"
               >
-                W88 Surface Burst: 475 kt at 0 m
+                {th.presetW88}
               </button>
             </div>
 
             <div className="bg-bg-primary rounded p-3 text-xs text-text-muted border border-border">
-              <span className="text-blast font-semibold">Mach Stem: </span>
-              When the reflected blast wave catches up with the incident wave, they merge
-              into a single reinforced wavefront near the ground. This <em>Mach stem</em> produces
-              higher overpressure over a wider area than either wave alone.
+              <span className="text-blast font-semibold">{th.machStemLabel} </span>
+              {th.machStemDesc}
             </div>
           </div>
 
@@ -147,25 +147,25 @@ export default function HeightOfBurst() {
         {/* Stats row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           <InfoCard
-            label="Optimal HOB"
+            label={th.stats.optimalHOB}
             value={stats.optimalHOB}
             accentColor="#f59e0b"
             formatValue={(v) => `${Math.round(v)} m`}
           />
           <InfoCard
-            label={`Effective ${targetPsi} psi radius`}
+            label={th.stats.effectiveRadius.replace('{psi}', String(targetPsi))}
             value={stats.effectiveRadius}
             accentColor="#3b82f6"
             formatValue={formatDistance}
           />
           <InfoCard
-            label="vs Surface Burst"
+            label={th.stats.vsSurface}
             value={stats.enhancement}
             accentColor={stats.enhancement > 0 ? '#22c55e' : '#ef4444'}
             formatValue={(v) => `${v > 0 ? '+' : ''}${v.toFixed(1)}%`}
           />
           <InfoCard
-            label="Fireball Radius"
+            label={th.stats.fireballRadius}
             value={stats.fireballRadiusKm * 1000}
             accentColor="#fbbf24"
             formatValue={(v) => `${Math.round(v)} m`}

@@ -4,6 +4,7 @@ import { SectionWrapper } from '../../components/layout/SectionWrapper'
 import { blastRadius } from '../../lib/physics/blast'
 import { promptRadiationRadius } from '../../lib/physics/radiation'
 import { formatDistance } from '../../lib/format'
+import { useTranslation } from '../../hooks/useTranslation'
 
 interface WeaponSystem {
   name: string
@@ -30,21 +31,25 @@ const WEAPONS: WeaponSystem[] = [
 export default function TacticalStrategic() {
   const [expandedWeapon, setExpandedWeapon] = useState<string | null>(null)
 
+  const t = useTranslation()
+  const tt = t.expert.tactical
+
   // Davy Crockett insight data
   const davyCrockettBlast = blastRadius(0.02, 5) * 1000 // meters
   const davyCrockettRad = promptRadiationRadius(0.02, 500) * 1000 // meters
   const davyCrockettRange = 3000 // meters (weapon range)
+
+  const escalationRungs = [...tt.escalationRungs].reverse()
 
   return (
     <SectionWrapper id="tactical-strategic" fullHeight={false}>
       <div className="space-y-8">
         <div className="space-y-2">
           <h2 className="text-3xl md:text-4xl font-bold">
-            Tactical vs. Strategic Nuclear Weapons
+            {tt.title}
           </h2>
           <p className="text-text-secondary max-w-3xl">
-            Nuclear weapons span six orders of magnitude in yield — from sub-kiloton "tactical"
-            weapons designed for battlefield use to multi-megaton "strategic" weapons targeting cities and hardened facilities.
+            {tt.subtitle}
           </p>
         </div>
 
@@ -65,7 +70,7 @@ export default function TacticalStrategic() {
                     ? 'bg-thermal/20 text-thermal'
                     : 'bg-fallout/20 text-fallout'
                 }`}>
-                  {weapon.category}
+                  {weapon.category === 'tactical' ? tt.categoryTactical : tt.categoryStrategic}
                 </span>
                 <span className="text-sm font-medium text-text-primary flex-1">{weapon.name}</span>
                 <span className="text-xs text-text-muted hidden md:block">{weapon.delivery}</span>
@@ -90,27 +95,27 @@ export default function TacticalStrategic() {
                       <p className="text-sm text-text-secondary">{weapon.details}</p>
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
                         <div>
-                          <span className="text-text-muted block">Delivery</span>
+                          <span className="text-text-muted block">{tt.deliveryLabel}</span>
                           <span className="text-text-primary">{weapon.delivery}</span>
                         </div>
                         <div>
-                          <span className="text-text-muted block">Range</span>
+                          <span className="text-text-muted block">{tt.rangeLabel}</span>
                           <span className="text-text-primary">{weapon.range}</span>
                         </div>
                         <div>
-                          <span className="text-text-muted block">Primary Targets</span>
+                          <span className="text-text-muted block">{tt.primaryTargetsLabel}</span>
                           <span className="text-text-primary">{weapon.targets}</span>
                         </div>
                         <div>
-                          <span className="text-text-muted block">Fallout Profile</span>
+                          <span className="text-text-muted block">{tt.falloutProfileLabel}</span>
                           <span className="text-text-primary">{weapon.fallout}</span>
                         </div>
                       </div>
                       <div className="flex gap-4 text-xs text-text-muted">
-                        <span>5 psi radius: <span className="text-blast">{formatDistance(blastRadius(weapon.yieldKt, 5))}</span></span>
-                        <span>1 psi radius: <span className="text-thermal">{formatDistance(blastRadius(weapon.yieldKt, 1))}</span></span>
+                        <span>{tt.blast5psiLabel} <span className="text-blast">{formatDistance(blastRadius(weapon.yieldKt, 5))}</span></span>
+                        <span>{tt.blast1psiLabel} <span className="text-thermal">{formatDistance(blastRadius(weapon.yieldKt, 1))}</span></span>
                         {weapon.yieldKt < 50 && (
-                          <span>Lethal radiation: <span className="text-radiation">{formatDistance(promptRadiationRadius(weapon.yieldKt, 500))}</span></span>
+                          <span>{tt.lethalRadLabel} <span className="text-radiation">{formatDistance(promptRadiationRadius(weapon.yieldKt, 500))}</span></span>
                         )}
                       </div>
                     </div>
@@ -124,11 +129,10 @@ export default function TacticalStrategic() {
         {/* Davy Crockett insight */}
         <div className="bg-bg-secondary rounded-lg border border-border p-6 space-y-4">
           <h3 className="text-lg font-semibold text-thermal">
-            The Davy Crockett Problem — When Radiation Exceeds Range
+            {tt.davyCrockettTitle}
           </h3>
           <p className="text-sm text-text-secondary">
-            The W54 Davy Crockett illustrates a fundamental problem with very small nuclear weapons:
-            the lethal radiation radius can exceed both the blast radius and the weapon's own delivery range.
+            {tt.davyCrockettDesc}
           </p>
 
           <div className="flex justify-center">
@@ -138,7 +142,7 @@ export default function TacticalStrategic() {
 
               {/* Weapon position */}
               <circle cx={100} cy={100} r={4} fill="#f59e0b" />
-              <text x={100} y={88} fill="#f59e0b" fontSize={9} textAnchor="middle" fontFamily="Inter">Firing position</text>
+              <text x={100} y={88} fill="#f59e0b" fontSize={9} textAnchor="middle" fontFamily="Inter">{tt.firingPosition}</text>
 
               {/* Blast radius (smallest) */}
               <circle cx={100} cy={100} r={davyCrockettBlast / 30} fill="rgba(59, 130, 246, 0.15)" stroke="#3b82f6" strokeWidth={1.5} />
@@ -151,19 +155,19 @@ export default function TacticalStrategic() {
 
               {/* Labels */}
               <text x={300} y={40} fill="#3b82f6" fontSize={10} fontFamily="Inter">
-                Blast radius (5 psi): {Math.round(davyCrockettBlast)} m
+                {tt.blastRadiusLabel} {Math.round(davyCrockettBlast)} m
               </text>
               <text x={300} y={58} fill="#f59e0b" fontSize={10} fontFamily="Inter">
-                Weapon range: ~{(davyCrockettRange / 1000).toFixed(0)} km
+                {tt.weaponRangeLabel} ~{(davyCrockettRange / 1000).toFixed(0)} km
               </text>
               <text x={300} y={76} fill="#22c55e" fontSize={10} fontFamily="Inter">
-                Lethal radiation: {Math.round(davyCrockettRad)} m
+                {tt.lethalRadiationLabel} {Math.round(davyCrockettRad)} m
               </text>
               <text x={300} y={110} fill="#ef4444" fontSize={11} fontFamily="Inter" fontWeight={600}>
-                Radiation radius ≈ weapon range
+                {tt.radiationWarning}
               </text>
               <text x={300} y={128} fill="#94a3b8" fontSize={9} fontFamily="Inter">
-                The crew would likely receive a lethal dose
+                {tt.crewWarning}
               </text>
             </svg>
           </div>
@@ -172,35 +176,30 @@ export default function TacticalStrategic() {
         {/* Escalation ladder */}
         <div className="bg-bg-secondary rounded-lg border border-border p-6 space-y-4">
           <h3 className="text-lg font-semibold text-text-primary">
-            The Escalation Ladder
+            {tt.escalationTitle}
           </h3>
           <p className="text-sm text-text-secondary">
-            Nuclear strategists describe escalation as a ladder — each rung represents a more
-            dangerous level of conflict. The key concern is that crossing any nuclear threshold
-            may make higher rungs inevitable.
+            {tt.escalationDesc}
           </p>
 
           <div className="flex flex-col gap-1 max-w-md mx-auto">
-            {[
-              { label: 'Strategic Countervalue', desc: 'Targeting cities and population centers', color: '#dc2626' },
-              { label: 'Strategic Counterforce', desc: 'Targeting enemy nuclear forces and C2', color: '#ef4444' },
-              { label: 'Theater Nuclear', desc: 'Nuclear strikes on military targets in-theater', color: '#f97316' },
-              { label: 'Tactical Nuclear', desc: 'Battlefield nuclear weapons use', color: '#f59e0b' },
-              { label: 'Conventional Conflict', desc: 'Non-nuclear military operations', color: '#3b82f6' },
-              { label: 'Crisis/Tension', desc: 'Diplomatic crisis, military posturing', color: '#22c55e' },
-            ].reverse().map((rung, i) => (
-              <div
-                key={rung.label}
-                className="flex items-center gap-3 px-4 py-2 rounded bg-bg-card border border-border"
-                style={{ borderLeftColor: rung.color, borderLeftWidth: 3 }}
-              >
-                <span className="text-text-muted text-xs w-4">{6 - i}</span>
-                <div>
-                  <span className="text-sm font-medium" style={{ color: rung.color }}>{rung.label}</span>
-                  <span className="text-xs text-text-muted block">{rung.desc}</span>
+            {escalationRungs.map((rung, i) => {
+              const colors = ['#dc2626', '#ef4444', '#f97316', '#f59e0b', '#3b82f6', '#22c55e']
+              const color = colors[i]
+              return (
+                <div
+                  key={rung.label}
+                  className="flex items-center gap-3 px-4 py-2 rounded bg-bg-card border border-border"
+                  style={{ borderLeftColor: color, borderLeftWidth: 3 }}
+                >
+                  <span className="text-text-muted text-xs w-4">{escalationRungs.length - i}</span>
+                  <div>
+                    <span className="text-sm font-medium" style={{ color }}>{rung.label}</span>
+                    <span className="text-xs text-text-muted block">{rung.desc}</span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       </div>

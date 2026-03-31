@@ -15,6 +15,7 @@ import { formatYield, formatDistance, formatArea } from '../../lib/format'
 import { WEAPON_PRESETS } from '../../data/weapons'
 import { EFFECT_RING_COLORS } from '../../theme/colors'
 import { useDebouncedValue } from '../../hooks/useDebouncedValue'
+import { useTranslation } from '../../hooks/useTranslation'
 import type { City } from '../../data/cities'
 
 const DEFAULT_CENTER: [number, number] = [37.0, -116.05] // Nevada Test Site
@@ -24,6 +25,9 @@ export default function BlastRadius() {
   const [center, setCenter] = useState<[number, number]>(DEFAULT_CENTER)
   const [cityName, setCityName] = useState('Nevada Test Site')
   const [zoom, setZoom] = useState(10)
+
+  const t = useTranslation()
+  const tb = t.expert.blast
 
   const debouncedYield = useDebouncedValue(yieldKt, 100)
 
@@ -55,25 +59,25 @@ export default function BlastRadius() {
   }, [debouncedYield])
 
   const rings: EffectRing[] = useMemo(() => [
-    { radiusKm: effects.fireball, color: EFFECT_RING_COLORS.fireball, label: 'Fireball' },
-    { radiusKm: effects.psi20, color: EFFECT_RING_COLORS.psi20, label: 'Heavy blast (20 psi)' },
-    { radiusKm: effects.psi5, color: EFFECT_RING_COLORS.psi5, label: 'Severe damage (5 psi)' },
-    { radiusKm: effects.psi2, color: EFFECT_RING_COLORS.psi2, label: 'Moderate damage (2 psi)' },
-    { radiusKm: effects.psi1, color: EFFECT_RING_COLORS.psi1, label: 'Light damage (1 psi)' },
-    { radiusKm: effects.thermal3, color: EFFECT_RING_COLORS.thermalBurn3, label: '3rd degree burns', dashed: true },
-    { radiusKm: effects.thermal1, color: EFFECT_RING_COLORS.thermalBurn1, label: '1st degree burns', dashed: true },
-    { radiusKm: effects.radiation, color: EFFECT_RING_COLORS.radiationLethal, label: 'Lethal radiation (500 rem)', dashed: true },
-  ].filter(r => r.radiusKm > 0.001), [effects])
+    { radiusKm: effects.fireball, color: EFFECT_RING_COLORS.fireball, label: tb.rings.fireball },
+    { radiusKm: effects.psi20, color: EFFECT_RING_COLORS.psi20, label: tb.rings.heavyBlast },
+    { radiusKm: effects.psi5, color: EFFECT_RING_COLORS.psi5, label: tb.rings.severeDamage },
+    { radiusKm: effects.psi2, color: EFFECT_RING_COLORS.psi2, label: tb.rings.moderateDamage },
+    { radiusKm: effects.psi1, color: EFFECT_RING_COLORS.psi1, label: tb.rings.lightDamage },
+    { radiusKm: effects.thermal3, color: EFFECT_RING_COLORS.thermalBurn3, label: tb.rings.burns3rd, dashed: true },
+    { radiusKm: effects.thermal1, color: EFFECT_RING_COLORS.thermalBurn1, label: tb.rings.burns1st, dashed: true },
+    { radiusKm: effects.radiation, color: EFFECT_RING_COLORS.radiationLethal, label: tb.rings.lethalRad, dashed: true },
+  ].filter(r => r.radiusKm > 0.001), [effects, tb.rings])
 
   const legendItems = [
-    { color: EFFECT_RING_COLORS.fireball, label: 'Fireball' },
-    { color: EFFECT_RING_COLORS.psi20, label: '20 psi' },
-    { color: EFFECT_RING_COLORS.psi5, label: '5 psi' },
-    { color: EFFECT_RING_COLORS.psi2, label: '2 psi' },
-    { color: EFFECT_RING_COLORS.psi1, label: '1 psi' },
-    { color: EFFECT_RING_COLORS.thermalBurn3, label: '3rd° burns', dashed: true },
-    { color: EFFECT_RING_COLORS.thermalBurn1, label: '1st° burns', dashed: true },
-    { color: EFFECT_RING_COLORS.radiationLethal, label: 'Lethal rad.', dashed: true },
+    { color: EFFECT_RING_COLORS.fireball, label: tb.legend.fireball },
+    { color: EFFECT_RING_COLORS.psi20, label: tb.legend.psi20 },
+    { color: EFFECT_RING_COLORS.psi5, label: tb.legend.psi5 },
+    { color: EFFECT_RING_COLORS.psi2, label: tb.legend.psi2 },
+    { color: EFFECT_RING_COLORS.psi1, label: tb.legend.psi1 },
+    { color: EFFECT_RING_COLORS.thermalBurn3, label: tb.legend.burns3rd, dashed: true },
+    { color: EFFECT_RING_COLORS.thermalBurn1, label: tb.legend.burns1st, dashed: true },
+    { color: EFFECT_RING_COLORS.radiationLethal, label: tb.legend.lethalRad, dashed: true },
   ]
 
   return (
@@ -81,31 +85,29 @@ export default function BlastRadius() {
       <div className="space-y-6">
         <div className="space-y-2">
           <h2 className="text-3xl md:text-4xl font-bold">
-            Blast Radius Calculator
+            {tb.title}
           </h2>
           <p className="text-text-secondary max-w-2xl">
-            Visualize the destructive radius of a nuclear detonation. Select a yield and location
-            to see the concentric zones of blast overpressure, thermal radiation, and prompt nuclear radiation.
+            {tb.subtitle}
           </p>
           <p className="text-text-muted text-xs max-w-2xl">
-            Based on scaling laws from Glasstone & Dolan, "Effects of Nuclear Weapons" (1977).
-            These are simplified educational models — actual effects depend on terrain, weather, and weapon design.
+            {tb.sourceNote}
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-6">
           {/* Controls */}
           <div className="space-y-4 bg-bg-secondary rounded-lg p-4 border border-border">
-            <h3 className="text-sm font-semibold text-text-primary uppercase tracking-wider">Parameters</h3>
+            <h3 className="text-sm font-semibold text-text-primary uppercase tracking-wider">{tb.parametersLabel}</h3>
 
             {/* Weapon preset */}
             <div className="space-y-1.5">
-              <label className="text-sm text-text-secondary font-medium">Weapon Preset</label>
+              <label className="text-sm text-text-secondary font-medium">{tb.weaponPresetLabel}</label>
               <select
                 onChange={handlePresetSelect}
                 className="w-full bg-bg-card border border-border rounded-lg px-3 py-2 text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-blast appearance-none cursor-pointer"
               >
-                <option value="">Custom yield...</option>
+                <option value="">{tb.customYield}</option>
                 {WEAPON_PRESETS.map(w => (
                   <option key={w.name} value={w.name}>
                     {w.name} ({formatYield(w.yieldKt)})
@@ -120,7 +122,7 @@ export default function BlastRadius() {
               max={100000}
               value={yieldKt}
               onChange={setYieldKt}
-              label="Yield"
+              label={tb.yieldLabel}
               logarithmic
               accentColor="#ef4444"
               formatValue={formatYield}
@@ -131,7 +133,7 @@ export default function BlastRadius() {
 
             {/* Quick yield presets */}
             <div className="space-y-1.5">
-              <span className="text-sm text-text-secondary font-medium">Quick Select</span>
+              <span className="text-sm text-text-secondary font-medium">{tb.quickSelectLabel}</span>
               <div className="flex flex-wrap gap-1.5">
                 {[
                   { label: 'Hiroshima', yield: 15 },
@@ -153,9 +155,8 @@ export default function BlastRadius() {
 
             {/* Scaling law note */}
             <div className="bg-bg-primary rounded p-3 text-xs text-text-muted border border-border">
-              <span className="text-thermal font-semibold">Cube root scaling: </span>
-              r ∝ Y<sup>1/3</sup> — doubling the yield only increases radius by 26%.
-              To double the blast radius, you need 8× the yield.
+              <span className="text-thermal font-semibold">{tb.cubeRootLabel} </span>
+              {tb.cubeRootDesc}
             </div>
           </div>
 
@@ -172,38 +173,38 @@ export default function BlastRadius() {
         {/* Stats row */}
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
           <InfoCard
-            label="Fireball"
+            label={tb.stats.fireball}
             value={effects.fireball * 2}
             accentColor={EFFECT_RING_COLORS.fireball}
             formatValue={(v) => formatDistance(v)}
             icon="🔥"
           />
           <InfoCard
-            label="Total Destruction"
+            label={tb.stats.totalDestruction}
             value={effects.psi20}
             accentColor={EFFECT_RING_COLORS.psi20}
             formatValue={formatDistance}
           />
           <InfoCard
-            label="Severe Damage"
+            label={tb.stats.severeDamage}
             value={effects.psi5}
             accentColor={EFFECT_RING_COLORS.psi5}
             formatValue={formatDistance}
           />
           <InfoCard
-            label="Light Damage"
+            label={tb.stats.lightDamage}
             value={effects.psi1}
             accentColor={EFFECT_RING_COLORS.psi1}
             formatValue={formatDistance}
           />
           <InfoCard
-            label="Area (5 psi)"
+            label={tb.stats.area5psi}
             value={effects.areaPsi5}
             accentColor={EFFECT_RING_COLORS.psi5}
             formatValue={formatArea}
           />
           <InfoCard
-            label="Area (1 psi)"
+            label={tb.stats.area1psi}
             value={effects.areaPsi1}
             accentColor={EFFECT_RING_COLORS.psi1}
             formatValue={formatArea}

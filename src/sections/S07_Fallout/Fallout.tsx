@@ -10,6 +10,7 @@ import { Legend } from '../../components/ui/Legend'
 import { generateFalloutContours } from '../../lib/physics/fallout'
 import { formatYield } from '../../lib/format'
 import { useDebouncedValue } from '../../hooks/useDebouncedValue'
+import { useTranslation } from '../../hooks/useTranslation'
 import type { City } from '../../data/cities'
 
 const DEFAULT_CENTER: [number, number] = [37.0, -116.05]
@@ -39,6 +40,9 @@ export default function FalloutSimulator() {
   const [windDir, setWindDir] = useState(90)
   const [surfaceBurst, setSurfaceBurst] = useState(true)
   const [fissionFraction, setFissionFraction] = useState(0.5)
+
+  const t = useTranslation()
+  const tf = t.expert.fallout
 
   const debouncedYield = useDebouncedValue(yieldKt, 100)
   const debouncedWindSpeed = useDebouncedValue(windSpeed, 100)
@@ -71,11 +75,11 @@ export default function FalloutSimulator() {
   }, [])
 
   const legendItems = [
-    { color: 'rgba(127, 29, 29, 0.8)', label: '>1000 rad/hr (lethal)' },
-    { color: 'rgba(220, 38, 38, 0.7)', label: '300-1000 rad/hr' },
-    { color: 'rgba(249, 115, 22, 0.6)', label: '100-300 rad/hr' },
-    { color: 'rgba(234, 179, 8, 0.5)', label: '10-100 rad/hr' },
-    { color: 'rgba(234, 179, 8, 0.3)', label: '1-10 rad/hr' },
+    { color: 'rgba(127, 29, 29, 0.8)', label: tf.legend.lethal },
+    { color: 'rgba(220, 38, 38, 0.7)', label: tf.legend.veryHigh },
+    { color: 'rgba(249, 115, 22, 0.6)', label: tf.legend.high },
+    { color: 'rgba(234, 179, 8, 0.5)', label: tf.legend.moderate },
+    { color: 'rgba(234, 179, 8, 0.3)', label: tf.legend.low },
   ]
 
   // Estimate plume extent
@@ -92,20 +96,17 @@ export default function FalloutSimulator() {
       <div className="space-y-6">
         <div className="space-y-2">
           <h2 className="text-3xl md:text-4xl font-bold">
-            Fallout Plume Simulator
+            {tf.title}
           </h2>
           <p className="text-text-secondary max-w-3xl">
-            Visualize the downwind spread of radioactive fallout from a nuclear detonation.
-            <span className="text-thermal font-medium"> Surface bursts</span> produce massive fallout as the fireball
-            vaporizes soil and debris. <span className="text-blast font-medium">Airbursts</span> produce
-            minimal local fallout — the fireball never touches the ground.
+            {tf.subtitle}
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-6">
           {/* Controls */}
           <div className="space-y-4 bg-bg-secondary rounded-lg p-4 border border-border">
-            <h3 className="text-sm font-semibold text-text-primary uppercase tracking-wider">Parameters</h3>
+            <h3 className="text-sm font-semibold text-text-primary uppercase tracking-wider">{tf.parametersLabel}</h3>
 
             <CitySearch onSelect={handleCitySelect} />
 
@@ -114,7 +115,7 @@ export default function FalloutSimulator() {
               max={10000}
               value={yieldKt}
               onChange={setYieldKt}
-              label="Yield"
+              label={tf.yieldLabel}
               logarithmic
               accentColor="#ef4444"
               formatValue={formatYield}
@@ -122,7 +123,7 @@ export default function FalloutSimulator() {
 
             {/* Burst type toggle */}
             <div className="space-y-1.5">
-              <label className="text-sm text-text-secondary font-medium">Burst Type</label>
+              <label className="text-sm text-text-secondary font-medium">{tf.burstTypeLabel}</label>
               <div className="flex gap-2">
                 <button
                   onClick={() => setSurfaceBurst(true)}
@@ -132,7 +133,7 @@ export default function FalloutSimulator() {
                       : 'bg-bg-card border-border text-text-secondary'
                   }`}
                 >
-                  Surface Burst
+                  {tf.surfaceBurst}
                 </button>
                 <button
                   onClick={() => setSurfaceBurst(false)}
@@ -142,15 +143,14 @@ export default function FalloutSimulator() {
                       : 'bg-bg-card border-border text-text-secondary'
                   }`}
                 >
-                  Airburst
+                  {tf.airburst}
                 </button>
               </div>
             </div>
 
             {!surfaceBurst && (
               <div className="bg-blast/10 rounded p-3 text-xs text-blast border border-blast/20">
-                Airbursts produce minimal local fallout. The fireball doesn't contact the ground,
-                so no soil or debris is activated and lofted into the atmosphere.
+                {tf.airburstNote}
               </div>
             )}
 
@@ -159,7 +159,7 @@ export default function FalloutSimulator() {
               max={60}
               value={windSpeed}
               onChange={setWindSpeed}
-              label="Wind Speed"
+              label={tf.windSpeedLabel}
               unit="km/h"
               accentColor="#94a3b8"
             />
@@ -169,7 +169,7 @@ export default function FalloutSimulator() {
               max={360}
               value={windDir}
               onChange={setWindDir}
-              label="Wind Direction (blowing toward)"
+              label={tf.windDirLabel}
               accentColor="#94a3b8"
               formatValue={(v) => {
                 const dirs = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW']
@@ -182,7 +182,7 @@ export default function FalloutSimulator() {
               max={1}
               value={fissionFraction}
               onChange={setFissionFraction}
-              label="Fission Fraction"
+              label={tf.fissionFractionLabel}
               step={0.05}
               accentColor="#22c55e"
               formatValue={(v) => `${(v * 100).toFixed(0)}%`}
@@ -190,7 +190,7 @@ export default function FalloutSimulator() {
 
             {/* Presets */}
             <div className="space-y-1.5">
-              <span className="text-sm text-text-secondary font-medium">Scenario Presets</span>
+              <span className="text-sm text-text-secondary font-medium">{tf.scenarioPresetsLabel}</span>
               {PRESETS.map(preset => (
                 <button
                   key={preset.label}
@@ -203,9 +203,8 @@ export default function FalloutSimulator() {
             </div>
 
             <div className="bg-bg-primary rounded p-3 text-xs text-text-muted border border-border">
-              <span className="text-fallout font-semibold">Fallout decay: </span>
-              Fission products follow the 7:10 rule — for every 7-fold increase in time,
-              radiation decreases by a factor of 10. At 49 hours, dose rate is 1% of the 1-hour level.
+              <span className="text-fallout font-semibold">{tf.falloutDecayLabel} </span>
+              {tf.falloutDecayDesc}
             </div>
           </div>
 
@@ -222,25 +221,25 @@ export default function FalloutSimulator() {
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           <InfoCard
-            label="Plume Extent"
+            label={tf.stats.plumeExtent}
             value={maxDownwind}
             accentColor="#ef4444"
             formatValue={(v) => `${v.toFixed(0)} km`}
           />
           <InfoCard
-            label="Wind Speed"
+            label={tf.stats.windSpeed}
             value={windSpeed}
             unit="km/h"
             accentColor="#94a3b8"
           />
           <InfoCard
-            label="Fission Yield"
+            label={tf.stats.fissionYield}
             value={yieldKt * fissionFraction}
             accentColor="#22c55e"
             formatValue={formatYield}
           />
           <InfoCard
-            label="Contour Zones"
+            label={tf.stats.contourZones}
             value={contours.length}
             accentColor="#f59e0b"
           />
