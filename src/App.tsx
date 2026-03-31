@@ -27,7 +27,7 @@ function App() {
       <TopoBackground />
       <Navigation />
 
-      <main className="relative z-10 lg:pt-0 pt-12">
+      <main className="relative z-10 lg:pt-0 pt-12 lg:pl-12">
         <Suspense fallback={<SectionLoader />}><Hero /></Suspense>
         <Suspense fallback={<SectionLoader />}><Basics /></Suspense>
         <Suspense fallback={<SectionLoader />}><Effects /></Suspense>
