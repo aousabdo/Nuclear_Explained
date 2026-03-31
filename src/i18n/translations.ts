@@ -28,6 +28,8 @@ export const translations = {
     hero: {
       title: 'Nuclear Explained',
       subtitle: 'An interactive guide to fission, fusion, blast effects, fallout, and what a nuclear detonation actually does',
+      casualSubtitle: 'What would a nuclear bomb do to your city?',
+      expertSubtitle: 'An interactive guide to fission, fusion, blast effects, fallout, and the physics of nuclear weapons.',
       description: 'The Physics of Nuclear Weapons — from scaling laws to fallout models. All data from publicly available sources.',
       scroll: 'SCROLL TO EXPLORE',
     },
@@ -100,6 +102,12 @@ export const translations = {
       subtitle: 'The fireball from a nuclear weapon can range from a city block to larger than a major city.',
       fireballDiameter: 'Fireball diameter',
       comparison: 'Comparison',
+      landmarks: [
+        'Fireball smaller than 3 city blocks',
+        'Fireball = ~5 city blocks across',
+        'Fireball wider than the US Capitol grounds',
+        'Fireball wider than Washington D.C.',
+      ],
     },
     casualFallout: {
       title: 'The Invisible Danger',
@@ -473,6 +481,8 @@ export const translations = {
     hero: {
       title: 'النووي ببساطة',
       subtitle: 'دليل تفاعلي حول الانشطار النووي والاندماج وتأثيرات الانفجار والتداعيات الإشعاعية',
+      casualSubtitle: 'ماذا سيحدث لمدينتك لو انفجرت قنبلة نووية؟',
+      expertSubtitle: 'دليل تفاعلي حول الانشطار والاندماج النووي وتأثيرات الانفجار وفيزياء الأسلحة النووية.',
       description: 'فيزياء الأسلحة النووية — من قوانين التحجيم إلى نماذج الإشعاع. جميع البيانات من مصادر متاحة للعموم.',
       scroll: 'مرر للأسفل للاستكشاف',
     },
@@ -545,6 +555,12 @@ export const translations = {
       subtitle: 'يمتد حجم كرة النار من الانفجار النووي بين حجم مبنى واحد وأكبر من مدينة كاملة.',
       fireballDiameter: 'قطر كرة النار',
       comparison: 'مقارنة',
+      landmarks: [
+        'كرة النار أصغر من ٣ بنايات متجاورة',
+        'كرة النار = حوالي ٥ بنايات متجاورة',
+        'كرة النار أوسع من مجمع الكابيتول الأمريكي',
+        'كرة النار أوسع من مدينة واشنطن العاصمة',
+      ],
     },
     casualFallout: {
       title: 'الخطر الخفي',

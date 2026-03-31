@@ -1,7 +1,8 @@
-import { Suspense, lazy } from 'react'
+import { Suspense, lazy, useEffect } from 'react'
 import { Navigation } from './components/layout/Navigation'
-import { ModeToggle } from './components/layout/ModeToggle'
-import { LanguageToggle } from './components/layout/LanguageToggle'
+import { UnifiedToggle } from './components/layout/UnifiedToggle'
+import { ScrollProgress } from './components/layout/ScrollProgress'
+import { BackToTop } from './components/layout/BackToTop'
 import { TopoBackground } from './components/layout/TopoBackground'
 import { useAppStore } from './hooks/useAppStore'
 
@@ -33,14 +34,51 @@ function SectionLoader() {
 }
 
 function App() {
-  const mode = useAppStore((s) => s.mode)
+  const { mode, setMode, language, setLanguage } = useAppStore()
+
+  // Read hash on mount
+  useEffect(() => {
+    const hash = window.location.hash.replace('#', '')
+    if (hash) {
+      const parts = hash.split('-')
+      const hashMode = parts[0]
+      const hashLang = parts[1]
+      if (hashMode === 'casual' || hashMode === 'expert') {
+        setMode(hashMode)
+      }
+      if (hashLang === 'en' || hashLang === 'ar') {
+        setLanguage(hashLang)
+        document.documentElement.dir = hashLang === 'ar' ? 'rtl' : 'ltr'
+        document.documentElement.lang = hashLang
+      }
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Write hash on mode/language change
+  useEffect(() => {
+    window.location.hash = `${mode}-${language}`
+  }, [mode, language])
+
+  // Dynamic title + meta description on language change
+  useEffect(() => {
+    document.title = language === 'ar'
+      ? 'النووي ببساطة — دليل تفاعلي للأسلحة النووية'
+      : 'Nuclear Explained — Interactive Nuclear Weapons Physics'
+
+    const desc = document.querySelector('meta[name="description"]')
+    if (desc) desc.setAttribute('content', language === 'ar'
+      ? 'محاكي تفاعلي للأسلحة النووية — احسب نطاق الانفجار والإشعاع والتساقط بناءً على قوانين جلاستون ودولان الفيزيائية'
+      : 'Interactive nuclear weapons physics simulator. Explore blast radii, fallout plumes, height of burst, and scaling laws based on Glasstone & Dolan.'
+    )
+  }, [language])
 
   return (
     <div className="relative">
+      <ScrollProgress />
       <TopoBackground />
       <Navigation />
-      <ModeToggle />
-      <LanguageToggle />
+      <UnifiedToggle />
+      <BackToTop />
 
       <main className="relative z-10 lg:pt-0 pt-12 lg:pl-12">
         {/* Hero is shared in both modes */}

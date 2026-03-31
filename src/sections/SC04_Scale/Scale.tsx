@@ -4,41 +4,25 @@ import { fireballRadius } from '../../lib/physics/fireball'
 import { useTranslation } from '../../hooks/useTranslation'
 
 interface Weapon {
-  name: string
-  subtitle: string
+  nameKey: string
   yieldKt: number
   color: string
   glowColor: string
+  landmarkIndex: number
 }
 
 const WEAPONS: Weapon[] = [
-  { name: 'Little Boy', subtitle: 'Hiroshima, 1945 — 15 kt', yieldKt: 15, color: '#f59e0b', glowColor: 'rgba(245,158,11,0.4)' },
-  { name: 'Modern Warhead', subtitle: 'Standard SLBM — 100 kt', yieldKt: 100, color: '#3b82f6', glowColor: 'rgba(59,130,246,0.4)' },
-  { name: 'W88 Warhead', subtitle: 'Most powerful US warhead — 475 kt', yieldKt: 475, color: '#ef4444', glowColor: 'rgba(239,68,68,0.4)' },
-  { name: 'Tsar Bomba', subtitle: 'Largest ever detonated — 50,000 kt', yieldKt: 50000, color: '#a855f7', glowColor: 'rgba(168,85,247,0.4)' },
+  { nameKey: 'Little Boy', yieldKt: 15, color: '#f59e0b', glowColor: 'rgba(245,158,11,0.5)', landmarkIndex: 0 },
+  { nameKey: 'Modern Warhead', yieldKt: 100, color: '#3b82f6', glowColor: 'rgba(59,130,246,0.5)', landmarkIndex: 1 },
+  { nameKey: 'City Buster (W88)', yieldKt: 475, color: '#ef4444', glowColor: 'rgba(239,68,68,0.5)', landmarkIndex: 2 },
+  { nameKey: 'Tsar Bomba', yieldKt: 50000, color: '#a855f7', glowColor: 'rgba(168,85,247,0.5)', landmarkIndex: 3 },
 ]
 
-const LANDMARKS = [
-  { name: 'Eiffel Tower height', meters: 330 },
-  { name: 'Empire State Building', meters: 443 },
-  { name: 'Golden Gate Bridge length', meters: 2737 },
-  { name: 'Manhattan width', meters: 3700 },
-  { name: 'Washington DC width', meters: 16000 },
-]
-
-function getLandmarkComparison(diameterM: number): string {
-  if (diameterM < 330) return `smaller than the Eiffel Tower`
-  if (diameterM < 443) return `taller than the Eiffel Tower (${(diameterM / 330).toFixed(1)}×)`
-  if (diameterM < 2737) return `taller than the Empire State Building (${(diameterM / 443).toFixed(1)}×)`
-  if (diameterM < 3700) return `wider than the Golden Gate Bridge (${(diameterM / 2737).toFixed(1)}×)`
-  if (diameterM < 16000) return `wider than Manhattan (${(diameterM / 3700).toFixed(1)}×)`
-  return `wider than Washington DC (${(diameterM / 16000).toFixed(1)}×)`
-}
+const MAX_DISPLAY_PX = 260 // Tsar Bomba circle size in px
 
 export default function Scale() {
   const t = useTranslation()
-  const maxRadius = fireballRadius(50000) // Tsar Bomba max
-  const maxDiameter = maxRadius * 2
+  const maxRadius = fireballRadius(50000, false)
 
   return (
     <SectionWrapper id="c-scale" fullHeight={false}>
@@ -50,93 +34,82 @@ export default function Scale() {
           </p>
         </div>
 
-        {/* Landmark reference bar */}
-        <div className="bg-bg-secondary rounded-xl border border-border p-4">
-          <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-4">Landmark Reference</h3>
-          <div className="relative h-8 flex items-center">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full h-px bg-white/10" />
-            </div>
-            {LANDMARKS.map((lm) => {
-              const pct = (lm.meters / maxDiameter) * 100
-              return (
-                <div
-                  key={lm.name}
-                  className="absolute flex flex-col items-center"
-                  style={{ left: `${Math.min(pct, 98)}%` }}
-                >
-                  <div className="w-px h-4 bg-white/30" />
-                  <span className="text-[10px] text-white/40 whitespace-nowrap mt-1 rotate-45 origin-left">
-                    {lm.name}
-                  </span>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-
-        {/* Weapons */}
-        <div className="space-y-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {WEAPONS.map((weapon, i) => {
-            const radiusM = fireballRadius(weapon.yieldKt)
+            const radiusM = fireballRadius(weapon.yieldKt, false)
             const diameterM = radiusM * 2
-            const barPct = (diameterM / maxDiameter) * 100
             const displayDiam = diameterM >= 1000
-              ? `${(diameterM / 1000).toFixed(1)} km`
+              ? `${(diameterM / 1000).toFixed(2)} km`
               : `${diameterM.toFixed(0)} m`
-            const comparison = getLandmarkComparison(diameterM)
+
+            // Scale circle proportionally (px radius)
+            const circleRadius = (radiusM / maxRadius) * (MAX_DISPLAY_PX / 2)
+            const circleDiameter = Math.max(circleRadius * 2, 24)
+            const containerSize = MAX_DISPLAY_PX + 20
+
+            const landmark = t.scale.landmarks[weapon.landmarkIndex]
 
             return (
               <motion.div
-                key={weapon.name}
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                key={weapon.nameKey}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.12, duration: 0.5 }}
-                className="space-y-3"
+                transition={{ delay: i * 0.1, duration: 0.5 }}
+                className="rounded-2xl border p-6 flex flex-col items-center gap-4"
+                style={{
+                  backgroundColor: `${weapon.color}08`,
+                  borderColor: `${weapon.color}30`,
+                  boxShadow: `0 0 30px ${weapon.glowColor}20`,
+                }}
               >
-                <div className="flex items-baseline gap-3">
-                  <span className="text-lg font-bold text-text-primary">{weapon.name}</span>
-                  <span className="text-sm text-text-muted">{weapon.subtitle}</span>
+                {/* Glowing circle */}
+                <div
+                  className="relative flex items-center justify-center flex-shrink-0"
+                  style={{ width: containerSize, height: containerSize }}
+                >
+                  <motion.div
+                    initial={{ scale: 0.2, opacity: 0 }}
+                    whileInView={{ scale: 1, opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 + 0.2, duration: 0.7, ease: 'easeOut' }}
+                    style={{
+                      width: circleDiameter,
+                      height: circleDiameter,
+                      borderRadius: '50%',
+                      background: `radial-gradient(circle at center, white 0%, ${weapon.color} 30%, ${weapon.glowColor} 60%, transparent 80%)`,
+                      boxShadow: `0 0 ${circleDiameter * 0.4}px ${weapon.glowColor}, 0 0 ${circleDiameter * 0.15}px ${weapon.color}`,
+                    }}
+                  />
                 </div>
 
-                {/* Bar */}
-                <div className="relative h-12 flex items-center">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    whileInView={{ width: `${barPct}%` }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.12 + 0.2, duration: 0.8, ease: 'easeOut' }}
-                    className="absolute left-0 h-full rounded-r-lg flex items-center overflow-visible"
-                    style={{
-                      background: `radial-gradient(ellipse at left, ${weapon.glowColor} 0%, ${weapon.color}80 40%, ${weapon.color}20 100%)`,
-                      boxShadow: `0 0 20px ${weapon.glowColor}`,
-                      minWidth: 8,
-                    }}
-                  >
-                    <div
-                      className="absolute right-0 top-1/2 -translate-y-1/2 w-px h-8"
-                      style={{ backgroundColor: weapon.color }}
-                    />
-                  </motion.div>
-                  <span
-                    className="relative z-10 ml-auto pl-4 text-sm font-mono font-bold"
+                {/* Info */}
+                <div className="text-center space-y-1 w-full">
+                  <div className="text-lg font-black text-text-primary">{weapon.nameKey}</div>
+                  <div
+                    className="text-2xl font-black font-mono"
                     style={{ color: weapon.color }}
                   >
-                    {displayDiam} diameter
-                  </span>
+                    {displayDiam}
+                  </div>
+                  <div className="text-xs text-text-muted font-medium">
+                    {weapon.yieldKt >= 1000
+                      ? `${(weapon.yieldKt / 1000).toFixed(0)} Mt`
+                      : `${weapon.yieldKt} kt`} yield · {t.scale.fireballDiameter}
+                  </div>
+                  <div
+                    className="text-xs mt-2 px-3 py-1.5 rounded-full inline-block font-medium"
+                    style={{ backgroundColor: `${weapon.color}15`, color: weapon.color }}
+                  >
+                    {landmark}
+                  </div>
                 </div>
-
-                {/* Comparison */}
-                <p className="text-xs text-text-muted pl-1">
-                  Fireball {comparison}
-                </p>
               </motion.div>
             )
           })}
         </div>
 
-        {/* Callout */}
+        {/* Tsar Bomba callout */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -144,7 +117,7 @@ export default function Scale() {
           className="rounded-2xl border border-purple-500/30 bg-purple-950/30 p-6 text-center space-y-2"
         >
           <div className="text-4xl font-black text-purple-300">
-            {((fireballRadius(50000) * 2) / 1000).toFixed(1)} km
+            {((fireballRadius(50000, false) * 2) / 1000).toFixed(1)} km
           </div>
           <p className="text-purple-200 font-semibold">Tsar Bomba fireball diameter</p>
           <p className="text-text-muted text-sm">

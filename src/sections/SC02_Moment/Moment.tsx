@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { SectionWrapper } from '../../components/layout/SectionWrapper'
 import { useTranslation } from '../../hooks/useTranslation'
@@ -15,9 +15,29 @@ const STEP_GRADIENTS = [
 
 export default function Moment() {
   const [activeStep, setActiveStep] = useState(0)
+  const [paused, setPaused] = useState(false)
   const t = useTranslation()
   const steps = t.moment.steps
   const step = steps[activeStep]
+
+  // Auto-advance every 4 seconds unless paused
+  useEffect(() => {
+    if (paused) return
+    const timer = setTimeout(() => {
+      setActiveStep(s => (s + 1) % steps.length)
+    }, 4000)
+    return () => clearTimeout(timer)
+  }, [activeStep, paused, steps.length])
+
+  const handleArrow = (next: number) => {
+    setPaused(true)
+    setActiveStep(next)
+  }
+
+  const handleDot = (i: number) => {
+    setPaused(true)
+    setActiveStep(i)
+  }
 
   return (
     <SectionWrapper id="c-moment">
@@ -77,14 +97,14 @@ export default function Moment() {
           <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex justify-between px-4 pointer-events-none">
             <button
               className={`pointer-events-auto w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center text-white transition-all ${activeStep === 0 ? 'opacity-20 cursor-default' : ''}`}
-              onClick={() => setActiveStep((s) => Math.max(0, s - 1))}
+              onClick={() => handleArrow(Math.max(0, activeStep - 1))}
               disabled={activeStep === 0}
             >
               ‹
             </button>
             <button
               className={`pointer-events-auto w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center text-white transition-all ${activeStep === steps.length - 1 ? 'opacity-20 cursor-default' : ''}`}
-              onClick={() => setActiveStep((s) => Math.min(steps.length - 1, s + 1))}
+              onClick={() => handleArrow(Math.min(steps.length - 1, activeStep + 1))}
               disabled={activeStep === steps.length - 1}
             >
               ›
@@ -97,7 +117,7 @@ export default function Moment() {
           {steps.map((s, i) => (
             <button
               key={i}
-              onClick={() => setActiveStep(i)}
+              onClick={() => handleDot(i)}
               className="flex flex-col items-center gap-1.5 group"
             >
               <div
@@ -115,6 +135,16 @@ export default function Moment() {
               </span>
             </button>
           ))}
+        </div>
+
+        {/* Auto-advance toggle */}
+        <div className="flex justify-center">
+          <button
+            onClick={() => setPaused(p => !p)}
+            className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-white/50 hover:text-white/80 text-xs transition-all"
+          >
+            {paused ? '▶ Auto' : '⏸ Auto'}
+          </button>
         </div>
       </div>
     </SectionWrapper>
