@@ -4,6 +4,8 @@ import { UnifiedToggle } from './components/layout/UnifiedToggle'
 import { ScrollProgress } from './components/layout/ScrollProgress'
 import { BackToTop } from './components/layout/BackToTop'
 import { TopoBackground } from './components/layout/TopoBackground'
+import { ShareButton } from './components/layout/ShareButton'
+import { KeyboardShortcuts } from './components/layout/KeyboardShortcuts'
 import { useAppStore } from './hooks/useAppStore'
 
 // Expert mode sections
@@ -79,6 +81,8 @@ function App() {
       <Navigation />
       <UnifiedToggle />
       <BackToTop />
+      <ShareButton />
+      <KeyboardShortcuts />
 
       <main className="relative z-10 lg:pt-0 pt-12 lg:pl-12">
         {/* Hero is shared in both modes */}

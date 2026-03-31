@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://aousabdo.github.io/Nuclear_Explained/sitemap.xml
