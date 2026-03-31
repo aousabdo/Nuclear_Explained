@@ -10,7 +10,7 @@ import { fireballRadius } from '../../lib/physics/fireball'
 import type { City } from '../../data/cities'
 import { useTranslation } from '../../hooks/useTranslation'
 
-const DEFAULT_CENTER: [number, number] = [38.9072, -77.0369] // Washington D.C.
+const DEFAULT_CENTER: [number, number] = [34.884, 51.263] // Fordow, Iran
 
 interface WeaponPreset {
   name: string

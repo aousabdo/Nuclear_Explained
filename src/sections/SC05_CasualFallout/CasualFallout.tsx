@@ -9,7 +9,7 @@ import { useDebouncedValue } from '../../hooks/useDebouncedValue'
 import type { City } from '../../data/cities'
 import { useTranslation } from '../../hooks/useTranslation'
 
-const DEFAULT_CENTER: [number, number] = [38.9072, -77.0369] // Washington D.C.
+const DEFAULT_CENTER: [number, number] = [34.884, 51.263] // Fordow, Iran
 
 const WEAPON_YIELDS = [15, 100, 475]
 const WEAPON_COLORS = ['#f59e0b', '#3b82f6', '#ef4444']

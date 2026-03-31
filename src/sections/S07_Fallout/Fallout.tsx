@@ -13,7 +13,7 @@ import { useDebouncedValue } from '../../hooks/useDebouncedValue'
 import { useTranslation } from '../../hooks/useTranslation'
 import type { City } from '../../data/cities'
 
-const DEFAULT_CENTER: [number, number] = [37.0, -116.05]
+const DEFAULT_CENTER: [number, number] = [34.884, 51.263] // Fordow, Iran
 
 interface Preset {
   label: string
