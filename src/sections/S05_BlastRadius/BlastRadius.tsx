@@ -23,7 +23,7 @@ const DEFAULT_CENTER: [number, number] = [34.884, 51.263] // Fordow, Iran
 export default function BlastRadius() {
   const [yieldKt, setYieldKt] = useState(100)
   const [center, setCenter] = useState<[number, number]>(DEFAULT_CENTER)
-  const [cityName, setCityName] = useState('Nevada Test Site')
+  const [cityName, setCityName] = useState('Fordow, Iran')
   const [zoom, setZoom] = useState(10)
 
   const t = useTranslation()

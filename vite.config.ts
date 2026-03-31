@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: '/Nuclear_Explained/',
+  base: '/',
   build: {
     rollupOptions: {
       output: {

@@ -59,7 +59,7 @@ export default function Destruction() {
     icon: WEAPON_ICONS[1],
   }))
   const [center, setCenter] = useState<[number, number]>(DEFAULT_CENTER)
-  const [cityName, setCityName] = useState('Washington, D.C.')
+  const [cityName, setCityName] = useState('Fordow, Iran')
   const [zoom] = useState(10)
 
   // Keep selected in sync when language changes

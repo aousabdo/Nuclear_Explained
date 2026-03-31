@@ -67,6 +67,7 @@ export default function CasualFallout() {
   ]
 
   const [center, setCenter] = useState<[number, number]>(DEFAULT_CENTER)
+  const [cityName, setCityName] = useState("Fordow, Iran")
   const [zoom] = useState(8)
   const [weaponIdx, setWeaponIdx] = useState(1)
   const [windSpeedIdx, setWindSpeedIdx] = useState(1)
@@ -94,6 +95,7 @@ export default function CasualFallout() {
 
   const handleCitySelect = useCallback((city: City) => {
     setCenter([city.lat, city.lng])
+    setCityName(city.name)
   }, [])
 
   return (
@@ -170,7 +172,7 @@ export default function CasualFallout() {
               </div>
             </div>
 
-            <CitySearch onSelect={handleCitySelect} />
+            <CitySearch onSelect={handleCitySelect} value={cityName} />
           </div>
 
           {/* Map */}
