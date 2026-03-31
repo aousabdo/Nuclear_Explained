@@ -42,9 +42,9 @@ export default function Scale() {
               ? `${(diameterM / 1000).toFixed(2)} km`
               : `${diameterM.toFixed(0)} m`
 
-            // Scale circle proportionally (px radius)
-            const circleRadius = (radiusM / maxRadius) * (MAX_DISPLAY_PX / 2)
-            const circleDiameter = Math.max(circleRadius * 2, 24)
+            // Sqrt scaling keeps small weapons visible while preserving relative drama
+            const circleRadius = Math.sqrt(radiusM / maxRadius) * (MAX_DISPLAY_PX / 2)
+            const circleDiameter = Math.max(circleRadius * 2, 48)
             const containerSize = MAX_DISPLAY_PX + 20
 
             const landmark = t.scale.landmarks[weapon.landmarkIndex]
