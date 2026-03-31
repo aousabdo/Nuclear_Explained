@@ -112,36 +112,57 @@ function App() {
       </main>
 
       <footer id="footer" className="relative z-10 border-t border-border py-16 px-4">
-        <div className="max-w-4xl mx-auto space-y-6 text-center">
-          <h2 className="text-2xl font-bold text-text-primary">Sources & References</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-left">
+        <div className="max-w-4xl mx-auto space-y-6 text-center" dir={language === 'ar' ? 'rtl' : 'ltr'}>
+          <h2 className="text-2xl font-bold text-text-primary">
+            {language === 'ar' ? 'المصادر والمراجع' : 'Sources & References'}
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-start">
             <div className="bg-bg-secondary rounded-lg p-4 border border-border space-y-2">
-              <h3 className="font-semibold text-text-primary">Primary Sources</h3>
+              <h3 className="font-semibold text-text-primary">
+                {language === 'ar' ? 'المصادر الرئيسية' : 'Primary Sources'}
+              </h3>
               <ul className="space-y-1 text-text-secondary text-xs">
-                <li>Glasstone & Dolan, "The Effects of Nuclear Weapons" (1977) — US DoD</li>
-                <li>FAS Nuclear Notebook — Federation of American Scientists</li>
-                <li>NUKEMAP by Alex Wellerstein — Nuclear Secrecy Blog</li>
-                <li>National Academy of Sciences — Nuclear Weapons Reports</li>
+                {language === 'ar' ? <>
+                  <li>غلاستون ودولان، "تأثيرات الأسلحة النووية" (1977) — وزارة الدفاع الأمريكية</li>
+                  <li>الكتاب النووي لـ FAS — اتحاد علماء أمريكا</li>
+                  <li>NUKEMAP بقلم أليكس ويلرشتاين — مدونة Nuclear Secrecy</li>
+                  <li>الأكاديمية الوطنية للعلوم — تقارير الأسلحة النووية</li>
+                </> : <>
+                  <li>Glasstone & Dolan, "The Effects of Nuclear Weapons" (1977) — US DoD</li>
+                  <li>FAS Nuclear Notebook — Federation of American Scientists</li>
+                  <li>NUKEMAP by Alex Wellerstein — Nuclear Secrecy Blog</li>
+                  <li>National Academy of Sciences — Nuclear Weapons Reports</li>
+                </>}
               </ul>
             </div>
             <div className="bg-bg-secondary rounded-lg p-4 border border-border space-y-2">
-              <h3 className="font-semibold text-text-primary">Methodology</h3>
+              <h3 className="font-semibold text-text-primary">
+                {language === 'ar' ? 'المنهجية العلمية' : 'Methodology'}
+              </h3>
               <ul className="space-y-1 text-text-secondary text-xs">
-                <li>Blast scaling: r ∝ Y^(1/3) cube-root scaling law</li>
-                <li>Thermal: r ∝ Y^(0.41) with atmospheric absorption</li>
-                <li>Fallout: Simplified Gaussian plume dispersion model</li>
-                <li>All data from publicly available, unclassified sources</li>
+                {language === 'ar' ? <>
+                  <li>قياس الانفجار: r ∝ Y^(1/3) — قانون الجذر التكعيبي</li>
+                  <li>الحرارة: r ∝ Y^(0.41) مع الامتصاص الجوي</li>
+                  <li>التساقط: نموذج انتشار غاوسي مبسّط</li>
+                  <li>جميع البيانات من مصادر غير سرية ومتاحة للعموم</li>
+                </> : <>
+                  <li>Blast scaling: r ∝ Y^(1/3) cube-root scaling law</li>
+                  <li>Thermal: r ∝ Y^(0.41) with atmospheric absorption</li>
+                  <li>Fallout: Simplified Gaussian plume dispersion model</li>
+                  <li>All data from publicly available, unclassified sources</li>
+                </>}
               </ul>
             </div>
           </div>
           <p className="text-text-muted text-sm max-w-xl mx-auto">
-            This is an educational resource. All data is from publicly available sources.
-            These calculations are simplified models — actual weapon effects depend on
-            many additional factors including terrain, weather, and weapon design.
+            {language === 'ar'
+              ? 'هذا مورد تعليمي. جميع البيانات من مصادر متاحة للعموم. هذه الحسابات نماذج مبسّطة — تعتمد التأثيرات الفعلية على عوامل عديدة منها التضاريس والطقس وتصميم السلاح.'
+              : 'This is an educational resource. All data is from publicly available sources. These calculations are simplified models — actual weapon effects depend on many additional factors including terrain, weather, and weapon design.'
+            }
           </p>
-          <div className="space-y-1">
+          <div className="space-y-2">
             <p className="text-text-muted text-xs">
-              Built by{' '}
+              {language === 'ar' ? 'بناء بواسطة' : 'Built by'}{' '}
               <span className="text-text-secondary font-semibold">Dr. Aous Abdo</span>
               {' '}·{' '}
               <a
@@ -154,8 +175,39 @@ function App() {
               </a>
             </p>
             <p className="text-text-muted text-xs">
-              Ph.D. Physics · M.S. Nuclear Structure Theory · Former Researcher, Los Alamos National Laboratory
+              {language === 'ar'
+                ? 'دكتوراه في الفيزياء · ماجستير في نظرية البنية النووية · باحث سابق، مختبر لوس ألاموس الوطني'
+                : 'Ph.D. Physics · M.S. Nuclear Structure Theory · Former Researcher, Los Alamos National Laboratory'
+              }
             </p>
+            {/* Social links */}
+            <div className="flex items-center justify-center gap-4 pt-1">
+              <a
+                href="https://x.com/aousabdo"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-text-muted hover:text-text-primary transition-colors flex items-center gap-1.5 text-xs"
+                aria-label="X / Twitter"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+                @aousabdo
+              </a>
+              <span className="text-border">·</span>
+              <a
+                href="https://github.com/aousabdo/Nuclear_Explained"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-text-muted hover:text-text-primary transition-colors flex items-center gap-1.5 text-xs"
+                aria-label="GitHub"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+                </svg>
+                {language === 'ar' ? 'المصدر المفتوح' : 'Open Source'}
+              </a>
+            </div>
           </div>
         </div>
       </footer>
