@@ -3,6 +3,12 @@ import { create } from 'zustand'
 type Mode = 'casual' | 'expert'
 type Language = 'en' | 'ar'
 
+export interface HeroCity {
+  lat: number
+  lng: number
+  name: string
+}
+
 interface AppStore {
   activeSection: string
   setActiveSection: (id: string) => void
@@ -10,6 +16,8 @@ interface AppStore {
   setMode: (mode: Mode) => void
   language: Language
   setLanguage: (lang: Language) => void
+  heroCity: HeroCity | null
+  setHeroCity: (city: HeroCity | null) => void
 }
 
 export const useAppStore = create<AppStore>((set) => ({
@@ -23,4 +31,6 @@ export const useAppStore = create<AppStore>((set) => ({
     document.documentElement.lang = language
     set({ language })
   },
+  heroCity: null,
+  setHeroCity: (heroCity) => set({ heroCity }),
 }))

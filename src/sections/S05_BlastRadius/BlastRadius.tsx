@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react'
+import { useState, useMemo, useCallback, useEffect } from 'react'
 import { SectionWrapper } from '../../components/layout/SectionWrapper'
 import { BaseMap } from '../../components/map/BaseMap'
 import { EffectRings, type EffectRing } from '../../components/map/EffectRings'
@@ -16,6 +16,7 @@ import { WEAPON_PRESETS } from '../../data/weapons'
 import { EFFECT_RING_COLORS } from '../../theme/colors'
 import { useDebouncedValue } from '../../hooks/useDebouncedValue'
 import { useTranslation } from '../../hooks/useTranslation'
+import { useAppStore } from '../../hooks/useAppStore'
 import type { City } from '../../data/cities'
 
 const DEFAULT_CENTER: [number, number] = [34.884, 51.263] // Fordow, Iran
@@ -28,6 +29,16 @@ export default function BlastRadius() {
 
   const t = useTranslation()
   const tb = t.expert.blast
+  const heroCity = useAppStore(s => s.heroCity)
+
+  // Pick up city selected from hero
+  useEffect(() => {
+    if (heroCity) {
+      setCenter([heroCity.lat, heroCity.lng])
+      setCityName(heroCity.name)
+      setZoom(heroCity.lat > 0 ? 10 : 11)
+    }
+  }, [heroCity])
 
   const debouncedYield = useDebouncedValue(yieldKt, 100)
 

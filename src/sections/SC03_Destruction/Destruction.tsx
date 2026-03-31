@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react'
+import { useState, useMemo, useCallback, useEffect } from 'react'
 import { SectionWrapper } from '../../components/layout/SectionWrapper'
 import { BaseMap } from '../../components/map/BaseMap'
 import { EffectRings } from '../../components/map/EffectRings'
@@ -9,6 +9,7 @@ import { blastRadius, blastArea } from '../../lib/physics/blast'
 import { fireballRadius } from '../../lib/physics/fireball'
 import type { City } from '../../data/cities'
 import { useTranslation } from '../../hooks/useTranslation'
+import { useAppStore } from '../../hooks/useAppStore'
 
 const DEFAULT_CENTER: [number, number] = [34.884, 51.263] // Fordow, Iran
 
@@ -61,6 +62,15 @@ export default function Destruction() {
   const [center, setCenter] = useState<[number, number]>(DEFAULT_CENTER)
   const [cityName, setCityName] = useState('Fordow, Iran')
   const [zoom] = useState(10)
+  const heroCity = useAppStore(s => s.heroCity)
+
+  // Pick up city selected from hero
+  useEffect(() => {
+    if (heroCity) {
+      setCenter([heroCity.lat, heroCity.lng])
+      setCityName(heroCity.name)
+    }
+  }, [heroCity])
 
   // Keep selected in sync when language changes
   const selectedWeapon = CASUAL_WEAPONS.find((w) => w.yieldKt === selected.yieldKt) ?? CASUAL_WEAPONS[1]
