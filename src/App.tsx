@@ -139,9 +139,24 @@ function App() {
             These calculations are simplified models — actual weapon effects depend on
             many additional factors including terrain, weather, and weapon design.
           </p>
-          <p className="text-text-muted text-xs">
-            Built by Aous Abdo | Analytica Data Science Solutions
-          </p>
+          <div className="space-y-1">
+            <p className="text-text-muted text-xs">
+              Built by{' '}
+              <span className="text-text-secondary font-semibold">Dr. Aous Abdo</span>
+              {' '}·{' '}
+              <a
+                href="https://analyticadss.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-text-secondary hover:text-blast transition-colors underline underline-offset-2"
+              >
+                Analytica Data Science Solutions
+              </a>
+            </p>
+            <p className="text-text-muted text-xs">
+              Ph.D. Physics · M.S. Nuclear Structure Theory · Former Researcher, Los Alamos National Laboratory
+            </p>
+          </div>
         </div>
       </footer>
     </div>
