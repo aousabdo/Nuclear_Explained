@@ -5,6 +5,7 @@ import { useAppStore } from '../../hooks/useAppStore'
 export function Navigation() {
   const activeSection = useAppStore((s) => s.activeSection)
   const mode = useAppStore((s) => s.mode)
+  const language = useAppStore((s) => s.language)
 
   const sections = mode === 'casual' ? CASUAL_SECTIONS : SECTIONS
 
@@ -14,8 +15,8 @@ export function Navigation() {
 
   return (
     <>
-      {/* Desktop: fixed left sidebar dots */}
-      <nav className="hidden lg:flex fixed left-4 top-1/2 -translate-y-1/2 z-50 flex-col gap-3">
+      {/* Desktop: fixed sidebar dots — left in LTR, right in RTL */}
+      <nav className={`hidden lg:flex fixed top-1/2 -translate-y-1/2 z-50 flex-col gap-3 ${language === 'ar' ? 'right-4' : 'left-4'}`}>
         {sections.map((section) => (
           <button
             key={section.id}
@@ -31,7 +32,7 @@ export function Navigation() {
                 transform: activeSection === section.id ? 'scale(1.3)' : 'scale(1)',
               }}
             />
-            <span className="absolute left-6 whitespace-nowrap text-xs text-text-secondary opacity-0 group-hover:opacity-100 transition-opacity bg-bg-secondary px-2 py-1 rounded pointer-events-none">
+            <span className={`absolute whitespace-nowrap text-xs text-text-secondary opacity-0 group-hover:opacity-100 transition-opacity bg-bg-secondary px-2 py-1 rounded pointer-events-none ${language === 'ar' ? 'right-6' : 'left-6'}`}>
               {section.shortTitle}
             </span>
           </button>

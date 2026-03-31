@@ -1,6 +1,7 @@
 import { Suspense, lazy } from 'react'
 import { Navigation } from './components/layout/Navigation'
 import { ModeToggle } from './components/layout/ModeToggle'
+import { LanguageToggle } from './components/layout/LanguageToggle'
 import { TopoBackground } from './components/layout/TopoBackground'
 import { useAppStore } from './hooks/useAppStore'
 
@@ -39,6 +40,7 @@ function App() {
       <TopoBackground />
       <Navigation />
       <ModeToggle />
+      <LanguageToggle />
 
       <main className="relative z-10 lg:pt-0 pt-12 lg:pl-12">
         {/* Hero is shared in both modes */}

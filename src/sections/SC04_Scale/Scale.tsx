@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { SectionWrapper } from '../../components/layout/SectionWrapper'
 import { fireballRadius } from '../../lib/physics/fireball'
+import { useTranslation } from '../../hooks/useTranslation'
 
 interface Weapon {
   name: string
@@ -35,6 +36,7 @@ function getLandmarkComparison(diameterM: number): string {
 }
 
 export default function Scale() {
+  const t = useTranslation()
   const maxRadius = fireballRadius(50000) // Tsar Bomba max
   const maxDiameter = maxRadius * 2
 
@@ -42,9 +44,9 @@ export default function Scale() {
     <SectionWrapper id="c-scale" fullHeight={false}>
       <div className="space-y-10">
         <div className="text-center space-y-2">
-          <h2 className="text-3xl md:text-5xl font-black">Putting It in Perspective</h2>
+          <h2 className="text-3xl md:text-5xl font-black">{t.scale.title}</h2>
           <p className="text-text-secondary text-lg max-w-xl mx-auto">
-            The fireball alone — before the blast wave, before the fire — is already incomprehensible in scale.
+            {t.scale.subtitle}
           </p>
         </div>
 

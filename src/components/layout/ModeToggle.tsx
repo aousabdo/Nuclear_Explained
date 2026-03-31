@@ -1,7 +1,9 @@
 import { useAppStore } from '../../hooks/useAppStore'
+import { useTranslation } from '../../hooks/useTranslation'
 
 export function ModeToggle() {
   const { mode, setMode } = useAppStore()
+  const t = useTranslation()
 
   const handleSwitch = (m: 'casual' | 'expert') => {
     setMode(m)
@@ -16,7 +18,7 @@ export function ModeToggle() {
           mode === 'casual' ? 'bg-white/20 text-white' : 'text-white/40 hover:text-white/70'
         }`}
       >
-        <span>👁</span> Visual
+        {t.modeToggle.visual}
       </button>
       <div className="w-px bg-white/10 my-1.5" />
       <button
@@ -25,7 +27,7 @@ export function ModeToggle() {
           mode === 'expert' ? 'bg-white/20 text-white' : 'text-white/40 hover:text-white/70'
         }`}
       >
-        <span>⚛</span> Deep Dive
+        {t.modeToggle.deepDive}
       </button>
     </div>
   )

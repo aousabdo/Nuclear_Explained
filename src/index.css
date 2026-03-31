@@ -70,3 +70,8 @@ body {
 .leaflet-control-attribution a {
   color: var(--color-text-secondary) !important;
 }
+
+[dir="rtl"] body,
+[dir="rtl"] {
+  font-family: "Noto Sans Arabic", "Inter", system-ui, sans-serif;
+}

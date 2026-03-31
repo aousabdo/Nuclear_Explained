@@ -7,55 +7,74 @@ import { CitySearch } from '../../components/map/CitySearch'
 import { generateFalloutContours } from '../../lib/physics/fallout'
 import { useDebouncedValue } from '../../hooks/useDebouncedValue'
 import type { City } from '../../data/cities'
+import { useTranslation } from '../../hooks/useTranslation'
 
 const DEFAULT_CENTER: [number, number] = [38.9072, -77.0369] // Washington D.C.
 
-const WEAPONS = [
-  { name: 'Little Boy', yieldKt: 15, color: '#f59e0b' },
-  { name: 'Modern Warhead', yieldKt: 100, color: '#3b82f6' },
-  { name: 'City Buster', yieldKt: 475, color: '#ef4444' },
+const WEAPON_YIELDS = [15, 100, 475]
+const WEAPON_COLORS = ['#f59e0b', '#3b82f6', '#ef4444']
+
+const WIND_SPEED_VALUES = [10, 30, 60]
+
+const ZONE_COLORS = [
+  'rgba(127,29,29,0.85)',
+  'rgba(220,38,38,0.75)',
+  'rgba(249,115,22,0.65)',
+  'rgba(234,179,8,0.55)',
+  'rgba(134,239,172,0.45)',
 ]
 
-const WIND_SPEEDS = [
-  { label: 'Calm', kmh: 10 },
-  { label: 'Moderate', kmh: 30 },
-  { label: 'Strong', kmh: 60 },
-]
-
-const WIND_DIRS = [
-  { label: 'N', deg: 0 },
-  { label: 'NE', deg: 45 },
-  { label: 'E', deg: 90 },
-  { label: 'SE', deg: 135 },
-  { label: 'S', deg: 180 },
-  { label: 'SW', deg: 225 },
-  { label: 'W', deg: 270 },
-  { label: 'NW', deg: 315 },
-]
-
-const ZONE_LABELS = [
-  { color: 'rgba(127,29,29,0.85)', label: 'Immediately Fatal', desc: 'Lethal within minutes. No shelter is adequate.' },
-  { color: 'rgba(220,38,38,0.75)', label: 'Extremely Dangerous', desc: 'Lethal within hours without treatment.' },
-  { color: 'rgba(249,115,22,0.65)', label: 'Danger Zone', desc: 'Serious illness. Evacuate or shelter deeply.' },
-  { color: 'rgba(234,179,8,0.55)', label: 'Seek Shelter', desc: 'Stay indoors, close all windows and vents.' },
-  { color: 'rgba(134,239,172,0.45)', label: 'Caution', desc: 'Minimize outdoor exposure.' },
-]
-
-const SURVIVAL_TIPS = [
-  'Stay inside a concrete or brick building',
-  'Close all windows, doors, and vents',
-  'Shower and change clothes if exposed',
-  'Do not eat garden produce',
-  'Monitor official broadcasts',
-  'The first 24 hours are the most dangerous',
+const ZONE_DESCS = [
+  'Lethal within minutes. No shelter is adequate.',
+  'Lethal within hours without treatment.',
+  'Serious illness. Evacuate or shelter deeply.',
+  'Stay indoors, close all windows and vents.',
+  'Minimize outdoor exposure.',
 ]
 
 export default function CasualFallout() {
+  const t = useTranslation()
+
+  const WEAPONS = [
+    { name: 'Little Boy', yieldKt: WEAPON_YIELDS[0], color: WEAPON_COLORS[0] },
+    { name: 'Modern Warhead', yieldKt: WEAPON_YIELDS[1], color: WEAPON_COLORS[1] },
+    { name: 'City Buster', yieldKt: WEAPON_YIELDS[2], color: WEAPON_COLORS[2] },
+  ]
+
+  const WIND_SPEEDS_LIST = [
+    { label: 'Calm', kmh: WIND_SPEED_VALUES[0] },
+    { label: 'Moderate', kmh: WIND_SPEED_VALUES[1] },
+    { label: 'Strong', kmh: WIND_SPEED_VALUES[2] },
+  ]
+
+  const WIND_DIRS_LIST = [
+    { label: 'N', deg: 0 },
+    { label: 'NE', deg: 45 },
+    { label: 'E', deg: 90 },
+    { label: 'SE', deg: 135 },
+    { label: 'S', deg: 180 },
+    { label: 'SW', deg: 225 },
+    { label: 'W', deg: 270 },
+    { label: 'NW', deg: 315 },
+  ]
+
+  const ZONE_LABELS = [
+    { color: ZONE_COLORS[0], label: t.casualFallout.zones.fatal, desc: ZONE_DESCS[0] },
+    { color: ZONE_COLORS[1], label: t.casualFallout.zones.extremelyDangerous, desc: ZONE_DESCS[1] },
+    { color: ZONE_COLORS[2], label: t.casualFallout.zones.dangerZone, desc: ZONE_DESCS[2] },
+    { color: ZONE_COLORS[3], label: t.casualFallout.zones.seekShelter, desc: ZONE_DESCS[3] },
+    { color: ZONE_COLORS[4], label: t.casualFallout.zones.caution, desc: ZONE_DESCS[4] },
+  ]
+
   const [center, setCenter] = useState<[number, number]>(DEFAULT_CENTER)
   const [zoom] = useState(8)
-  const [weapon, setWeapon] = useState(WEAPONS[1])
-  const [windSpeed, setWindSpeed] = useState(WIND_SPEEDS[1])
-  const [windDir, setWindDir] = useState(WIND_DIRS[2])
+  const [weaponIdx, setWeaponIdx] = useState(1)
+  const [windSpeedIdx, setWindSpeedIdx] = useState(1)
+  const [windDirIdx, setWindDirIdx] = useState(2)
+
+  const weapon = WEAPONS[weaponIdx]
+  const windSpeed = WIND_SPEEDS_LIST[windSpeedIdx]
+  const windDir = WIND_DIRS_LIST[windDirIdx]
 
   const debouncedYield = useDebouncedValue(weapon.yieldKt, 100)
   const debouncedWindSpeed = useDebouncedValue(windSpeed.kmh, 100)
@@ -81,9 +100,9 @@ export default function CasualFallout() {
     <SectionWrapper id="c-fallout" fullHeight={false}>
       <div className="space-y-6">
         <div className="space-y-2">
-          <h2 className="text-3xl md:text-4xl font-black">The Invisible Danger</h2>
+          <h2 className="text-3xl md:text-4xl font-black">{t.casualFallout.title}</h2>
           <p className="text-text-secondary max-w-2xl">
-            Radioactive fallout drifts downwind for hundreds of miles after a surface burst. It's invisible, odorless, and lethal.
+            {t.casualFallout.subtitle}
           </p>
         </div>
 
@@ -91,12 +110,12 @@ export default function CasualFallout() {
           {/* Controls */}
           <div className="space-y-4">
             <div className="bg-bg-secondary rounded-xl border border-border p-4 space-y-4">
-              <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider">Weapon</h3>
+              <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider">{t.casualFallout.weapon}</h3>
               <div className="flex flex-col gap-2">
-                {WEAPONS.map((w) => (
+                {WEAPONS.map((w, i) => (
                   <button
                     key={w.name}
-                    onClick={() => setWeapon(w)}
+                    onClick={() => setWeaponIdx(i)}
                     className="px-3 py-2 rounded-lg text-sm font-semibold text-left border-2 transition-all"
                     style={{
                       borderColor: weapon.name === w.name ? w.color : 'transparent',
@@ -111,12 +130,12 @@ export default function CasualFallout() {
             </div>
 
             <div className="bg-bg-secondary rounded-xl border border-border p-4 space-y-4">
-              <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider">Wind Speed</h3>
+              <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider">{t.casualFallout.windSpeed}</h3>
               <div className="flex gap-2">
-                {WIND_SPEEDS.map((ws) => (
+                {WIND_SPEEDS_LIST.map((ws, i) => (
                   <button
                     key={ws.label}
-                    onClick={() => setWindSpeed(ws)}
+                    onClick={() => setWindSpeedIdx(i)}
                     className="flex-1 px-2 py-2 rounded-lg text-xs font-semibold border-2 transition-all"
                     style={{
                       borderColor: windSpeed.label === ws.label ? '#94a3b8' : 'transparent',
@@ -132,12 +151,12 @@ export default function CasualFallout() {
             </div>
 
             <div className="bg-bg-secondary rounded-xl border border-border p-4 space-y-3">
-              <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider">Wind Direction</h3>
+              <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider">{t.casualFallout.windDirection}</h3>
               <div className="grid grid-cols-4 gap-1.5">
-                {WIND_DIRS.map((wd) => (
+                {WIND_DIRS_LIST.map((wd, i) => (
                   <button
                     key={wd.label}
-                    onClick={() => setWindDir(wd)}
+                    onClick={() => setWindDirIdx(i)}
                     className="py-2 rounded-lg text-xs font-bold border-2 transition-all"
                     style={{
                       borderColor: windDir.label === wd.label ? '#ef4444' : 'transparent',
@@ -182,10 +201,10 @@ export default function CasualFallout() {
         {/* Survival tips */}
         <div className="bg-bg-secondary rounded-xl border border-border p-5 space-y-3">
           <h3 className="font-bold text-text-primary flex items-center gap-2">
-            <span>⚠</span> If You Are in the Fallout Zone
+            <span>⚠</span> {t.casualFallout.survivalTitle}
           </h3>
           <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-            {SURVIVAL_TIPS.map((tip) => (
+            {t.casualFallout.survivalTips.map((tip) => (
               <li key={tip} className="flex items-start gap-2 text-sm text-text-secondary">
                 <span className="text-yellow-400 mt-0.5 flex-shrink-0">•</span>
                 {tip}

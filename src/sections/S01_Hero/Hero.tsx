@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion'
 import { SectionWrapper } from '../../components/layout/SectionWrapper'
+import { useTranslation } from '../../hooks/useTranslation'
 
 export default function Hero() {
+  const t = useTranslation()
   return (
     <SectionWrapper id="hero" className="flex items-center justify-center">
       <div className="text-center space-y-8 relative">
@@ -35,9 +37,8 @@ export default function Hero() {
           transition={{ duration: 1, delay: 0.3 }}
         >
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight">
-            Nuclear{' '}
             <span className="bg-gradient-to-r from-thermal to-fallout bg-clip-text text-transparent">
-              Explained
+              {t.hero.title}
             </span>
           </h1>
         </motion.div>
@@ -48,8 +49,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.6 }}
         >
-          An interactive guide to fission, fusion, blast effects, fallout,
-          and what a nuclear detonation actually does
+          {t.hero.subtitle}
         </motion.p>
 
         <motion.p
@@ -58,8 +58,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.9 }}
         >
-          The Physics of Nuclear Weapons — from scaling laws to fallout models.
-          All data from publicly available sources.
+          {t.hero.description}
         </motion.p>
 
         {/* Scroll indicator */}
@@ -74,7 +73,7 @@ export default function Hero() {
             transition={{ duration: 1.5, repeat: Infinity }}
             className="flex flex-col items-center gap-2 text-text-muted"
           >
-            <span className="text-xs uppercase tracking-widest">Scroll to explore</span>
+            <span className="text-xs uppercase tracking-widest">{t.hero.scroll}</span>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M12 5v14M5 12l7 7 7-7" />
             </svg>
