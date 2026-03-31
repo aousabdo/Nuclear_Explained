@@ -176,8 +176,8 @@ function App() {
             </p>
             <p className="text-text-muted text-xs">
               {language === 'ar'
-                ? 'دكتوراه في الفيزياء · ماجستير في الفيزياء النووية · باحث سابق، مختبر لوس ألاموس الوطني وناسا'
-                : 'Ph.D. Physics · M.S. Nuclear Physics · Former Researcher, Los Alamos National Laboratory & NASA'
+                ? 'دكتوراه في الفيزياء · ماجستير في الفيزياء النووية · عالم سابق، مختبر لوس ألاموس الوطني · ناسا · وزارة الدفاع الأمريكية'
+                : 'Ph.D. Physics · M.S. Nuclear Physics · Former Scientist, Los Alamos National Laboratory · NASA · U.S. DoD'
               }
             </p>
             {/* Social links */}
