@@ -1,5 +1,7 @@
 import { Suspense, lazy, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { ErrorBoundary } from './components/layout/ErrorBoundary'
+import { ChapterNav } from './components/layout/ChapterNav'
 import { Navigation } from './components/layout/Navigation'
 import { UnifiedToggle } from './components/layout/UnifiedToggle'
 import { ScrollProgress } from './components/layout/ScrollProgress'
@@ -60,7 +62,7 @@ function SectionLoader() {
 }
 
 function App() {
-  const { mode, setMode, language, setLanguage } = useAppStore()
+  const { mode, setMode, language, setLanguage, activeChapter } = useAppStore()
   const { enabled: geigerEnabled, toggle: toggleGeiger } = useGeigerToggle(1.2)
   usePrefetchSections()
 
@@ -135,48 +137,69 @@ function App() {
 
         {mode === 'casual' ? (
           <>
-            <ErrorBoundary sectionId="c-moment">
-              <Suspense fallback={<SectionLoader />}><Moment /></Suspense>
-            </ErrorBoundary>
-            <ErrorBoundary sectionId="c-destruction">
-              <Suspense fallback={<SectionLoader />}><Destruction /></Suspense>
-            </ErrorBoundary>
-            <ErrorBoundary sectionId="c-scale">
-              <Suspense fallback={<SectionLoader />}><Scale /></Suspense>
-            </ErrorBoundary>
-            <ErrorBoundary sectionId="c-fallout">
-              <Suspense fallback={<SectionLoader />}><CasualFallout /></Suspense>
-            </ErrorBoundary>
-            <ErrorBoundary sectionId="c-impact">
-              <Suspense fallback={<SectionLoader />}><Impact /></Suspense>
-            </ErrorBoundary>
-            <ErrorBoundary sectionId="c-winter">
-              <Suspense fallback={<SectionLoader />}><NuclearWinter /></Suspense>
-            </ErrorBoundary>
-            <ErrorBoundary sectionId="c-survival">
-              <Suspense fallback={<SectionLoader />}><Survival /></Suspense>
-            </ErrorBoundary>
-            <ErrorBoundary sectionId="c-trajectory">
-              <Suspense fallback={<SectionLoader />}><MissileTrajectory /></Suspense>
-            </ErrorBoundary>
-            <ErrorBoundary sectionId="c-arsenal">
-              <Suspense fallback={<SectionLoader />}><ArsenalMap /></Suspense>
-            </ErrorBoundary>
-            <ErrorBoundary sectionId="c-nearmiss">
-              <Suspense fallback={<SectionLoader />}><NearMiss /></Suspense>
-            </ErrorBoundary>
-            <ErrorBoundary sectionId="c-timeline">
-              <Suspense fallback={<SectionLoader />}><TestTimeline /></Suspense>
-            </ErrorBoundary>
-            <ErrorBoundary sectionId="c-countries">
-              <Suspense fallback={<SectionLoader />}><CountryProfiles /></Suspense>
-            </ErrorBoundary>
-            <ErrorBoundary sectionId="c-risk">
-              <Suspense fallback={<SectionLoader />}><RiskCard /></Suspense>
-            </ErrorBoundary>
-            <ErrorBoundary sectionId="c-quiz">
-              <Suspense fallback={<SectionLoader />}><NuclearQuiz /></Suspense>
-            </ErrorBoundary>
+            <ChapterNav />
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeChapter}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -16 }}
+                transition={{ duration: 0.25, ease: 'easeOut' }}
+              >
+                {activeChapter === 'blast' && <>
+                  <ErrorBoundary sectionId="c-moment">
+                    <Suspense fallback={<SectionLoader />}><Moment /></Suspense>
+                  </ErrorBoundary>
+                  <ErrorBoundary sectionId="c-destruction">
+                    <Suspense fallback={<SectionLoader />}><Destruction /></Suspense>
+                  </ErrorBoundary>
+                  <ErrorBoundary sectionId="c-scale">
+                    <Suspense fallback={<SectionLoader />}><Scale /></Suspense>
+                  </ErrorBoundary>
+                  <ErrorBoundary sectionId="c-fallout">
+                    <Suspense fallback={<SectionLoader />}><CasualFallout /></Suspense>
+                  </ErrorBoundary>
+                </>}
+                {activeChapter === 'consequences' && <>
+                  <ErrorBoundary sectionId="c-impact">
+                    <Suspense fallback={<SectionLoader />}><Impact /></Suspense>
+                  </ErrorBoundary>
+                  <ErrorBoundary sectionId="c-winter">
+                    <Suspense fallback={<SectionLoader />}><NuclearWinter /></Suspense>
+                  </ErrorBoundary>
+                  <ErrorBoundary sectionId="c-survival">
+                    <Suspense fallback={<SectionLoader />}><Survival /></Suspense>
+                  </ErrorBoundary>
+                </>}
+                {activeChapter === 'threat' && <>
+                  <ErrorBoundary sectionId="c-trajectory">
+                    <Suspense fallback={<SectionLoader />}><MissileTrajectory /></Suspense>
+                  </ErrorBoundary>
+                  <ErrorBoundary sectionId="c-arsenal">
+                    <Suspense fallback={<SectionLoader />}><ArsenalMap /></Suspense>
+                  </ErrorBoundary>
+                  <ErrorBoundary sectionId="c-nearmiss">
+                    <Suspense fallback={<SectionLoader />}><NearMiss /></Suspense>
+                  </ErrorBoundary>
+                </>}
+                {activeChapter === 'history' && <>
+                  <ErrorBoundary sectionId="c-timeline">
+                    <Suspense fallback={<SectionLoader />}><TestTimeline /></Suspense>
+                  </ErrorBoundary>
+                  <ErrorBoundary sectionId="c-countries">
+                    <Suspense fallback={<SectionLoader />}><CountryProfiles /></Suspense>
+                  </ErrorBoundary>
+                </>}
+                {activeChapter === 'you' && <>
+                  <ErrorBoundary sectionId="c-risk">
+                    <Suspense fallback={<SectionLoader />}><RiskCard /></Suspense>
+                  </ErrorBoundary>
+                  <ErrorBoundary sectionId="c-quiz">
+                    <Suspense fallback={<SectionLoader />}><NuclearQuiz /></Suspense>
+                  </ErrorBoundary>
+                </>}
+              </motion.div>
+            </AnimatePresence>
           </>
         ) : (
           <>
@@ -279,8 +302,8 @@ function App() {
             </p>
             <p className="text-text-muted text-xs">
               {language === 'ar'
-                ? 'دكتوراه في الفيزياء · ماجستير في الفيزياء النووية · عالم سابق، مختبر لوس ألاموس الوطني · ناسا · وزارة الدفاع الأمريكية'
-                : 'Ph.D. Physics · M.S. Nuclear Physics · Former Scientist, Los Alamos National Laboratory · NASA · U.S. DoD'
+                ? 'دكتوراه، فيزياء الجسيمات الفلكية · ماجستير، الفيزياء النووية · عالم سابق — مختبر لوس ألاموس الوطني · ناسا · وزارة الدفاع الأمريكية'
+                : 'Ph.D., Astroparticle Physics · M.S., Nuclear Physics · Former Scientist — Los Alamos National Laboratory · NASA · U.S. Department of Defense'
               }
             </p>
             <p className="text-text-muted text-xs">

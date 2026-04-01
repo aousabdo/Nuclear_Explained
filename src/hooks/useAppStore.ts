@@ -18,6 +18,8 @@ interface AppStore {
   setLanguage: (lang: Language) => void
   heroCity: HeroCity | null
   setHeroCity: (city: HeroCity | null) => void
+  activeChapter: string
+  setActiveChapter: (chapter: string) => void
 }
 
 export const useAppStore = create<AppStore>((set) => ({
@@ -33,4 +35,6 @@ export const useAppStore = create<AppStore>((set) => ({
   },
   heroCity: null,
   setHeroCity: (heroCity) => set({ heroCity }),
+  activeChapter: 'blast',
+  setActiveChapter: (activeChapter) => set({ activeChapter }),
 }))
