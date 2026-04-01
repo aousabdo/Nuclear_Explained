@@ -6,7 +6,7 @@ import { useAppStore } from '../../hooks/useAppStore'
 function MobileToggle() {
   const { mode, setMode, language, setLanguage } = useAppStore()
   return (
-    <div className="flex-shrink-0 flex items-center gap-0.5 px-2 border-l border-white/10">
+    <div className="flex items-center gap-0.5">
       <button
         onClick={() => { setMode('casual'); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
         aria-label="Switch to casual mode"
@@ -139,64 +139,57 @@ export function Navigation() {
       </nav>
 
       {/* ─── Mobile: top bar ──────────────────────────────────────────────── */}
-      <nav aria-label="Section navigation" className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-bg-primary/90 backdrop-blur-sm border-b border-border">
-        {mode === 'casual' ? (
-          // Casual: chapter chips — flex row, tabs take remaining space, spacer blocks toggle area
-          <div className="flex items-center">
-            <div className="flex-1 min-w-0 overflow-x-auto scrollbar-hide">
-              <div className="flex gap-1 px-3 py-2">
-                {CHAPTERS.map((chapter) => {
-                  const isActive = chapter.key === activeChapter
-                  return (
-                    <button
-                      key={chapter.key}
-                      onClick={() => {
-                        setActiveChapter(chapter.key)
-                        document.getElementById('chapter-nav')?.scrollIntoView({ behavior: 'smooth' })
-                      }}
-                      className="flex items-center gap-1 text-xs whitespace-nowrap px-3 py-1 rounded-full transition-all flex-shrink-0 font-semibold"
-                      aria-current={isActive ? 'true' : undefined}
-                      style={{
-                        backgroundColor: isActive ? chapter.color + '22' : 'transparent',
-                        color: isActive ? chapter.color : '#94a3b8',
-                        border: isActive ? `1px solid ${chapter.color}55` : '1px solid transparent',
-                      }}
-                    >
-                      <span>{chapter.icon}</span>
-                      <span>{isAr ? chapter.labelAr : chapter.label}</span>
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-            <MobileToggle />
-          </div>
-        ) : (
-          // Expert: original flat scrollable pills
-          <div className="flex items-center">
-            <div className="flex-1 min-w-0 overflow-x-auto scrollbar-hide">
-              <div className="flex gap-1 ps-3 py-2">
-                {sections.map((section) => (
+      <nav aria-label="Section navigation" className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-bg-primary/90 backdrop-blur-sm border-b border-border relative">
+        {/* Scrollable tabs — right padding reserves space under the toggle */}
+        <div className="overflow-x-auto scrollbar-hide pe-[140px]">
+          <div className="flex gap-1 px-3 py-2">
+            {mode === 'casual' ? (
+              CHAPTERS.map((chapter) => {
+                const isActive = chapter.key === activeChapter
+                return (
                   <button
-                    key={section.id}
-                    onClick={() => scrollToSection(section.id)}
-                    className="text-xs whitespace-nowrap px-2 py-1 rounded-full transition-all flex-shrink-0"
-                    aria-label={section.shortTitle}
-                    aria-current={activeSection === section.id ? 'true' : undefined}
+                    key={chapter.key}
+                    onClick={() => {
+                      setActiveChapter(chapter.key)
+                      document.getElementById('chapter-nav')?.scrollIntoView({ behavior: 'smooth' })
+                    }}
+                    className="flex items-center gap-1 text-xs whitespace-nowrap px-3 py-1 rounded-full transition-all flex-shrink-0 font-semibold"
+                    aria-current={isActive ? 'true' : undefined}
                     style={{
-                      backgroundColor: activeSection === section.id ? section.accentColor + '20' : 'transparent',
-                      color: activeSection === section.id ? section.accentColor : '#94a3b8',
-                      border: activeSection === section.id ? `1px solid ${section.accentColor}40` : '1px solid transparent',
+                      backgroundColor: isActive ? chapter.color + '22' : 'transparent',
+                      color: isActive ? chapter.color : '#94a3b8',
+                      border: isActive ? `1px solid ${chapter.color}55` : '1px solid transparent',
                     }}
                   >
-                    {section.shortTitle}
+                    <span>{chapter.icon}</span>
+                    <span>{isAr ? chapter.labelAr : chapter.label}</span>
                   </button>
-                ))}
-              </div>
-            </div>
-            <div className="w-40 flex-shrink-0" />
+                )
+              })
+            ) : (
+              sections.map((section) => (
+                <button
+                  key={section.id}
+                  onClick={() => scrollToSection(section.id)}
+                  className="text-xs whitespace-nowrap px-2 py-1 rounded-full transition-all flex-shrink-0"
+                  aria-label={section.shortTitle}
+                  aria-current={activeSection === section.id ? 'true' : undefined}
+                  style={{
+                    backgroundColor: activeSection === section.id ? section.accentColor + '20' : 'transparent',
+                    color: activeSection === section.id ? section.accentColor : '#94a3b8',
+                    border: activeSection === section.id ? `1px solid ${section.accentColor}40` : '1px solid transparent',
+                  }}
+                >
+                  {section.shortTitle}
+                </button>
+              ))
+            )}
           </div>
-        )}
+        </div>
+        {/* Toggle pinned to right with opaque bg so tabs scroll cleanly behind it */}
+        <div className="absolute right-0 top-0 bottom-0 flex items-center bg-bg-primary/95 backdrop-blur-sm ps-2 pe-1 border-l border-white/10">
+          <MobileToggle />
+        </div>
       </nav>
     </>
   )
