@@ -3,6 +3,35 @@ import { CASUAL_SECTIONS } from '../../config/casualSections'
 import { CHAPTERS } from '../../config/chapters'
 import { useAppStore } from '../../hooks/useAppStore'
 
+function MobileToggle() {
+  const { mode, setMode, language, setLanguage } = useAppStore()
+  return (
+    <div className="flex-shrink-0 flex items-center gap-0.5 px-2 border-l border-white/10">
+      <button
+        onClick={() => { setMode('casual'); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+        aria-label="Switch to casual mode"
+        className={`px-2 py-1 text-[11px] font-semibold rounded-full transition-all ${mode === 'casual' ? 'bg-white/15 text-white' : 'text-white/40'}`}
+      >👁</button>
+      <button
+        onClick={() => { setMode('expert'); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+        aria-label="Switch to expert mode"
+        className={`px-2 py-1 text-[11px] font-semibold rounded-full transition-all ${mode === 'expert' ? 'bg-white/15 text-white' : 'text-white/40'}`}
+      >⚛</button>
+      <div className="w-px h-4 bg-white/10 mx-0.5" />
+      <button
+        onClick={() => { setLanguage('en'); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+        aria-label="Switch to English"
+        className={`px-2 py-1 text-[11px] font-semibold rounded-full transition-all ${language === 'en' ? 'bg-white/15 text-white' : 'text-white/40'}`}
+      >EN</button>
+      <button
+        onClick={() => { setLanguage('ar'); window.scrollTo({ top: 0, behavior: 'smooth' }) }}
+        aria-label="Switch to Arabic"
+        className={`px-2 py-1 text-[11px] font-semibold rounded-full transition-all ${language === 'ar' ? 'bg-white/15 text-white' : 'text-white/40'}`}
+      >عر</button>
+    </div>
+  )
+}
+
 export function Navigation() {
   const activeSection = useAppStore((s) => s.activeSection)
   const mode = useAppStore((s) => s.mode)
@@ -140,8 +169,7 @@ export function Navigation() {
                 })}
               </div>
             </div>
-            {/* Spacer that matches the width of the fixed UnifiedToggle so tabs never slide under it */}
-            <div className="w-40 flex-shrink-0" />
+            <MobileToggle />
           </div>
         ) : (
           // Expert: original flat scrollable pills

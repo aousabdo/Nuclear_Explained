@@ -137,7 +137,7 @@ function App() {
 
         {mode === 'casual' ? (
           <>
-            <ChapterNav />
+            <div className="lg:hidden"><ChapterNav /></div>
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeChapter}

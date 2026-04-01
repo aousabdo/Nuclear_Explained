@@ -67,7 +67,7 @@ export function UnifiedToggle() {
   )
 
   return (
-    <div className="fixed top-1 right-1 md:top-4 md:right-4 z-50">
+    <div className="hidden lg:block fixed top-4 right-4 z-50">
       <div className={`flex items-center rounded-full border border-white/10 bg-black/60 backdrop-blur-md shadow-lg px-1 py-1 gap-0.5 md:gap-1 ${language === 'ar' ? 'flex-row-reverse' : 'flex-row'}`}>
         {language === 'ar' ? (
           <>
