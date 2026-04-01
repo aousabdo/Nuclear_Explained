@@ -75,7 +75,7 @@ function App() {
   }, [language])
 
   return (
-    <div className="relative">
+    <div className="relative overflow-x-hidden">
       <ScrollProgress />
       <TopoBackground />
       <Navigation />

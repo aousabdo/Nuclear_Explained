@@ -41,7 +41,7 @@ export function Navigation() {
 
       {/* Mobile: top bar */}
       <nav className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-bg-primary/90 backdrop-blur-sm border-b border-border">
-        <div className="flex overflow-x-auto gap-1 px-3 py-2 scrollbar-hide">
+        <div className="flex overflow-x-auto gap-1 ps-3 pe-36 py-2 scrollbar-hide">
           {sections.map((section) => (
             <button
               key={section.id}

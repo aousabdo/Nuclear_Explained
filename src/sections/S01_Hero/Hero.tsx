@@ -77,7 +77,7 @@ export default function Hero() {
 
         {/* Purpose anchor */}
         <motion.p
-          className="text-xs uppercase tracking-[0.2em] text-red-500/70 font-semibold"
+          className="text-[10px] sm:text-xs uppercase tracking-[0.15em] sm:tracking-[0.2em] text-red-500/70 font-semibold px-2"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.2 }}
@@ -94,7 +94,7 @@ export default function Hero() {
           <AnimatePresence mode="wait">
             <motion.h1
               key={mode + language}
-              className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight leading-none"
+              className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-tight leading-tight"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
