@@ -40,7 +40,7 @@ export default function Moment() {
   }
 
   return (
-    <SectionWrapper id="c-moment">
+    <SectionWrapper id="c-moment" fullHeight={false}>
       <div className="space-y-8">
         <div className="text-center space-y-2">
           <h2 className="text-4xl md:text-5xl font-black tracking-tight">

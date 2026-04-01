@@ -70,8 +70,7 @@ export default function Scale() {
                 >
                   <motion.div
                     initial={{ scale: 0.2, opacity: 0 }}
-                    whileInView={{ scale: 1, opacity: 1 }}
-                    viewport={{ once: true }}
+                    animate={{ scale: 1, opacity: 1 }}
                     transition={{ delay: i * 0.1 + 0.2, duration: 0.7, ease: 'easeOut' }}
                     style={{
                       width: circleDiameter,
