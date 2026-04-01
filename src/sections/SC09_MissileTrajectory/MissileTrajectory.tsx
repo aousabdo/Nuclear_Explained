@@ -379,7 +379,7 @@ export default function MissileTrajectory() {
                 <div className="text-text-muted text-xs uppercase tracking-widest mb-2">
                   {isAr ? 'الوقت المتبقي للاصطدام' : 'Time to Impact'}
                 </div>
-                <div className="font-mono text-6xl md:text-7xl font-black text-red-400 tabular-nums"
+                <div className="font-mono text-5xl md:text-7xl font-black text-red-400 tabular-nums"
                   style={{ textShadow: '0 0 40px rgba(239,68,68,0.5)' }}>
                   {String(remMin).padStart(2, '0')}:{String(remSec).padStart(2, '0')}
                 </div>

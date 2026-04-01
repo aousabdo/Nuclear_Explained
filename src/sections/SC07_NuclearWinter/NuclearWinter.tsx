@@ -151,6 +151,21 @@ export default function NuclearWinter() {
           ))}
         </motion.div>
 
+        {/* Calculation transparency */}
+        <details className="group">
+          <summary className="text-xs text-text-muted cursor-pointer hover:text-text-secondary transition-colors list-none flex items-center gap-1">
+            <span className="group-open:rotate-90 transition-transform inline-block">▶</span>
+            {isAr ? 'كيف حسبنا هذا؟' : 'How we calculated this'}
+          </summary>
+          <div className="mt-3 space-y-2 text-xs text-text-muted border-t border-border pt-3">
+            <p><span className="text-text-secondary font-mono">Soot injection:</span> Based on Robock et al. (2007) parametric study</p>
+            <p><span className="text-text-secondary font-mono">Temperature drop:</span> Toon et al. (2019) climate model outputs</p>
+            <p><span className="text-text-secondary font-mono">Crop loss:</span> Xia et al. (2022) agricultural impact modeling</p>
+            <p><span className="text-text-secondary font-mono">Famine deaths:</span> Helfand (2013), IPPNW report</p>
+            <p className="italic">These are representative values from peer-reviewed literature, not predictions.</p>
+          </div>
+        </details>
+
         {/* Temperature drop visualization */}
         <div className="bg-bg-secondary rounded-2xl border border-border p-5 space-y-4">
           <h3 className="font-bold text-text-primary text-sm">

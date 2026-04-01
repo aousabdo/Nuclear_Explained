@@ -49,6 +49,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+    <!-- Plausible Analytics (privacy-respecting, no cookies) -->
+    <script defer data-domain="nukes.analyticadss.com" src="https://plausible.io/js/script.js"></script>
+
     <!-- JSON-LD structured data -->
     <script type="application/ld+json">
 {
@@ -79,6 +82,25 @@
     }
   },
   "keywords": "nuclear weapons, blast radius, fallout, nuclear physics"
+}
+    </script>
+
+    <!-- Quiz structured data for Google rich results -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Quiz",
+  "name": "Nuclear Weapons IQ Test",
+  "description": "Test your knowledge of nuclear weapons, history, and physics. 10 questions with explanations.",
+  "url": "https://nukes.analyticadss.com/#casual-en",
+  "educationalLevel": "general",
+  "about": { "@type": "Thing", "name": "Nuclear Weapons" },
+  "author": { "@type": "Person", "name": "Dr. Aous Abdo" },
+  "hasPart": [
+    { "@type": "Question", "name": "How many nuclear warheads exist worldwide today?", "acceptedAnswer": { "@type": "Answer", "text": "Approximately 12,500 nuclear warheads as of 2024, down from a peak of ~70,000 in 1986." } },
+    { "@type": "Question", "name": "What was the yield of the Hiroshima bomb?", "acceptedAnswer": { "@type": "Answer", "text": "~15 kilotons. Modern warheads average 200–750 kt — 13–50× more powerful." } },
+    { "@type": "Question", "name": "How long does it take an ICBM to reach Moscow from the US?", "acceptedAnswer": { "@type": "Answer", "text": "Approximately 28 minutes. ICBMs travel at ~7 km/s." } }
+  ]
 }
     </script>
   </head>

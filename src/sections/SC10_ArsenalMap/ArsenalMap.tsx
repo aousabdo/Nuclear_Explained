@@ -1,3 +1,4 @@
+import { Cite } from '../../components/ui/Cite'
 import { motion } from 'framer-motion'
 import { SectionWrapper } from '../../components/layout/SectionWrapper'
 import { useAppStore } from '../../hooks/useAppStore'
@@ -76,7 +77,7 @@ export default function ArsenalMap() {
               className="flex items-center gap-3"
             >
               {/* Flag + name */}
-              <div className="flex items-center gap-2 w-36 shrink-0">
+              <div className="flex items-center gap-2 w-24 sm:w-36 shrink-0">
                 <span className="text-xl">{entry.flag}</span>
                 <span className="text-text-secondary text-sm font-medium truncate">
                   {isAr ? entry.countryAr : entry.country}
@@ -101,12 +102,12 @@ export default function ArsenalMap() {
               </div>
 
               {/* Count + NFU badge */}
-              <div className="flex items-center gap-2 w-28 shrink-0 justify-end">
+              <div className="flex items-center gap-1 sm:gap-2 w-20 sm:w-28 shrink-0 justify-end">
                 <span
                   className="font-mono font-bold tabular-nums text-sm"
                   style={{ color: entry.color }}
                 >
-                  {entry.warheads.toLocaleString()}
+                  <Cite source="FAS Nuclear Notebook, 2024 — Federation of American Scientists">{entry.warheads.toLocaleString()}</Cite>
                 </span>
                 {entry.nfu ? (
                   <span className="text-xs px-1.5 py-0.5 rounded bg-emerald-950/40 text-emerald-400 border border-emerald-800/40 font-mono">
@@ -191,7 +192,7 @@ export default function ArsenalMap() {
             className="grid grid-cols-2 gap-4 mt-4"
           >
             <div className="bg-red-950/20 border border-red-900/30 rounded-xl p-4 text-center space-y-1">
-              <div className="text-red-400 font-mono font-black text-3xl">70,300</div>
+              <div className="text-red-400 font-mono font-black text-2xl sm:text-3xl"><Cite source="Bulletin of Atomic Scientists, Nuclear Notebook Historical Data">70,300</Cite></div>
               <div className="text-text-muted text-xs uppercase tracking-wider">
                 {isAr ? 'ذروة 1986' : '1986 Peak'}
               </div>
@@ -200,7 +201,7 @@ export default function ArsenalMap() {
               </div>
             </div>
             <div className="bg-blue-950/20 border border-blue-900/30 rounded-xl p-4 text-center space-y-1">
-              <div className="text-blue-400 font-mono font-black text-3xl">~12,500</div>
+              <div className="text-blue-400 font-mono font-black text-2xl sm:text-3xl">~12,500</div>
               <div className="text-text-muted text-xs uppercase tracking-wider">
                 {isAr ? 'اليوم 2024' : '2024 Today'}
               </div>

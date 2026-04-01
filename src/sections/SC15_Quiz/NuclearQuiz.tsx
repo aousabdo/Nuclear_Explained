@@ -151,9 +151,10 @@ export default function NuclearQuiz() {
   }
 
   const handleShare = () => {
+    const tierLabel = getScoreMessage(score, isAr)
     const text = isAr
-      ? `سجّلت ${score}/10 في اختبار الذكاء النووي. هل يمكنك التفوق عليّ؟ nukes.analyticadss.com`
-      : `I scored ${score}/10 on the Nuclear Weapons IQ Test. Can you beat me? nukes.analyticadss.com`
+      ? `سجّلت ${score}/10 في اختبار الذكاء النووي — "${tierLabel}". هل يمكنك التفوق عليّ؟ nukes.analyticadss.com`
+      : `I scored ${score}/10 on the Nuclear IQ Test — "${tierLabel}". Can you beat me? → nukes.analyticadss.com`
     navigator.clipboard.writeText(text).then(() => {
       setCopied(true)
       setTimeout(() => setCopied(false), 2500)
@@ -335,26 +336,21 @@ export default function NuclearQuiz() {
               transition={{ duration: 0.35 }}
               className="space-y-6"
             >
+              {/* Score card */}
               <div
-                className="rounded-2xl border-2 p-8 text-center space-y-4"
-                style={{
-                  borderColor: getScoreColor(score) + '60',
-                  backgroundColor: getScoreColor(score) + '0d',
-                  boxShadow: `0 0 40px ${getScoreColor(score)}18`,
-                }}
+                id="quiz-score-card"
+                className="rounded-2xl border-2 p-6 text-center space-y-3"
+                style={{ borderColor: getScoreColor(score), backgroundColor: 'rgba(0,0,0,0.4)', boxShadow: `0 0 40px ${getScoreColor(score)}18` }}
               >
-                <div
-                  className="text-7xl font-black font-mono"
-                  style={{ color: getScoreColor(score) }}
-                >
-                  {score}<span className="text-4xl text-text-muted">/10</span>
+                <div className="text-5xl font-black font-mono" style={{ color: getScoreColor(score) }}>
+                  {score}/{QUESTIONS.length}
                 </div>
-                <p className="text-lg font-bold text-white">
-                  {getScoreMessage(score, isAr)}
-                </p>
+                <div className="text-lg font-bold text-text-primary">{getScoreMessage(score, isAr)}</div>
+                <div className="text-xs text-text-muted">Nuclear Explained · nukes.analyticadss.com</div>
+                <div className="text-xs text-text-muted">{new Date().toLocaleDateString()}</div>
 
                 {/* Mini bar chart */}
-                <div className="flex gap-1 justify-center mt-4">
+                <div className="flex gap-1 justify-center mt-2">
                   {answers.map((correct, i) => (
                     <div
                       key={i}
@@ -386,7 +382,7 @@ export default function NuclearQuiz() {
                   onClick={handleRestart}
                   className="px-6 py-3 rounded-xl font-bold text-sm bg-blue-600 hover:bg-blue-500 text-white transition-colors"
                 >
-                  {isAr ? '↺ إعادة الاختبار' : '↺ Try Again'}
+                  {isAr ? '↺ إعادة الاختبار' : '↺ Restart Quiz'}
                 </button>
               </div>
             </motion.div>

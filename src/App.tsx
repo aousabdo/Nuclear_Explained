@@ -9,6 +9,8 @@ import { KeyboardShortcuts } from './components/layout/KeyboardShortcuts'
 import { DoomsdayClock } from './components/layout/DoomsdayClock'
 import { useAppStore } from './hooks/useAppStore'
 import { useGeigerToggle } from './hooks/useGeiger'
+import { useSwipeNav } from './hooks/useSwipeNav'
+import { usePrefetchSections } from './hooks/usePrefetchSections'
 
 // Expert mode sections
 const Hero = lazy(() => import('./sections/S01_Hero/Hero'))
@@ -50,6 +52,8 @@ function SectionLoader() {
 function App() {
   const { mode, setMode, language, setLanguage } = useAppStore()
   const { enabled: geigerEnabled, toggle: toggleGeiger } = useGeigerToggle(1.2)
+  useSwipeNav()
+  usePrefetchSections()
 
   // Read hash on mount
   useEffect(() => {
@@ -219,6 +223,15 @@ function App() {
                 ? 'دكتوراه في الفيزياء · ماجستير في الفيزياء النووية · عالم سابق، مختبر لوس ألاموس الوطني · ناسا · وزارة الدفاع الأمريكية'
                 : 'Ph.D. Physics · M.S. Nuclear Physics · Former Scientist, Los Alamos National Laboratory · NASA · U.S. DoD'
               }
+            </p>
+            <p className="text-text-muted text-xs">
+              <span className="inline-flex items-center gap-1 bg-green-950/40 border border-green-900/30 text-green-400/70 px-2 py-0.5 rounded-full text-[10px]">
+                ✓ {language === 'ar' ? 'البيانات محدّثة: يناير 2025' : 'Data verified: Jan 2025'}
+              </span>
+              <span className="mx-2 text-border">·</span>
+              <a href="/privacy.html" className="hover:text-text-secondary transition-colors underline underline-offset-2">
+                {language === 'ar' ? 'سياسة الخصوصية' : 'Privacy Policy'}
+              </a>
             </p>
           </div>
         </div>

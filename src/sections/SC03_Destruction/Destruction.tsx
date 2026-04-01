@@ -13,6 +13,7 @@ import type { City } from '../../data/cities'
 import { useTranslation } from '../../hooks/useTranslation'
 import { useAppStore } from '../../hooks/useAppStore'
 import { CITIES } from '../../data/cities'
+import { Cite } from '../../components/ui/Cite'
 
 const DEFAULT_CENTER: [number, number] = [34.884, 51.263] // Fordow, Iran
 
@@ -171,10 +172,12 @@ export default function Destruction() {
                   </div>
                 </div>
                 <p className="text-[10px] text-text-muted leading-relaxed">
-                  {isAr
-                    ? 'تقدير مبسّط بناءً على الكثافة السكانية وبيانات Glasstone & Dolan.'
-                    : 'Simplified estimate based on population density & Glasstone & Dolan data.'
-                  }
+                  <Cite source="Glasstone & Dolan (1977) — The Effects of Nuclear Weapons, Table 12.17">
+                    {isAr
+                      ? 'تقدير مبسّط بناءً على الكثافة السكانية وبيانات Glasstone & Dolan.'
+                      : 'Simplified estimate based on population density & Glasstone & Dolan data.'
+                    }
+                  </Cite>
                 </p>
               </motion.div>
             )}
@@ -216,6 +219,25 @@ export default function Destruction() {
                 </div>
               </div>
             </div>
+
+            {/* Calculation transparency */}
+            <details className="group">
+              <summary className="text-xs text-text-muted cursor-pointer hover:text-text-secondary transition-colors list-none flex items-center gap-1">
+                <span className="group-open:rotate-90 transition-transform inline-block">▶</span>
+                {isAr ? 'كيف حسبنا هذا؟' : 'How we calculated this'}
+              </summary>
+              <div className="mt-3 space-y-2 text-xs text-text-muted border-t border-border pt-3">
+                <p><span className="text-text-secondary font-mono">Blast radius:</span> r = r₀ × (Y/Y₀)^(1/3) — Glasstone & Dolan cube-root scaling</p>
+                <p><span className="text-text-secondary font-mono">Fireball:</span> r_f = 90 × Y^0.41 meters (Y in kt)</p>
+                <p><span className="text-text-secondary font-mono">Casualties:</span> Zone populations × fatality fractions from G&D Table 12.17</p>
+                <p><span className="text-text-secondary font-mono">Area:</span> π × r² — assumes circular uniform damage</p>
+                <a href="https://www.dtra.mil/Portals/61/Documents/NTPR/4-Rad_Exp_Rpts/36_The_Effects_of_Nuclear_Weapons.pdf"
+                   target="_blank" rel="noopener noreferrer"
+                   className="text-blue-400/70 hover:text-blue-400 underline underline-offset-2">
+                  Source: Glasstone & Dolan (1977) — The Effects of Nuclear Weapons
+                </a>
+              </div>
+            </details>
 
             {/* Detonate button */}
             <motion.button

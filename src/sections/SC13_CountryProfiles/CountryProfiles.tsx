@@ -184,9 +184,9 @@ export default function CountryProfiles() {
                     </span>
                   </p>
                 </div>
-                <div className="ml-auto text-right">
+                <div className="ml-auto text-right shrink-0">
                   <div
-                    className="text-4xl md:text-5xl font-black font-mono"
+                    className="text-3xl md:text-5xl font-black font-mono"
                     style={{ color: country.color }}
                   >
                     {country.warheads.toLocaleString()}
