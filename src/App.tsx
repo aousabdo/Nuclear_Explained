@@ -30,6 +30,14 @@ const CasualFallout = lazy(() => import('./sections/SC05_CasualFallout/CasualFal
 const Impact = lazy(() => import('./sections/SC06_Impact/Impact'))
 const NuclearWinter = lazy(() => import('./sections/SC07_NuclearWinter/NuclearWinter'))
 const Survival = lazy(() => import('./sections/SC08_Survival/Survival'))
+const MissileTrajectory = lazy(() => import('./sections/SC09_MissileTrajectory/MissileTrajectory'))
+const ArsenalMap = lazy(() => import('./sections/SC10_ArsenalMap/ArsenalMap'))
+const NearMiss = lazy(() => import('./sections/SC11_NearMiss/NearMiss'))
+const TestTimeline = lazy(() => import('./sections/SC12_TestTimeline/TestTimeline'))
+const CountryProfiles = lazy(() => import('./sections/SC13_CountryProfiles/CountryProfiles'))
+const RiskCard = lazy(() => import('./sections/SC14_RiskCard/RiskCard'))
+const NuclearQuiz = lazy(() => import('./sections/SC15_Quiz/NuclearQuiz'))
+const EMPCalculator = lazy(() => import('./sections/SC16_EMP/EMPCalculator'))
 
 function SectionLoader() {
   return (
@@ -119,6 +127,13 @@ function App() {
             <Suspense fallback={<SectionLoader />}><Impact /></Suspense>
             <Suspense fallback={<SectionLoader />}><NuclearWinter /></Suspense>
             <Suspense fallback={<SectionLoader />}><Survival /></Suspense>
+            <Suspense fallback={<SectionLoader />}><MissileTrajectory /></Suspense>
+            <Suspense fallback={<SectionLoader />}><ArsenalMap /></Suspense>
+            <Suspense fallback={<SectionLoader />}><NearMiss /></Suspense>
+            <Suspense fallback={<SectionLoader />}><TestTimeline /></Suspense>
+            <Suspense fallback={<SectionLoader />}><CountryProfiles /></Suspense>
+            <Suspense fallback={<SectionLoader />}><RiskCard /></Suspense>
+            <Suspense fallback={<SectionLoader />}><NuclearQuiz /></Suspense>
           </>
         ) : (
           <>
@@ -131,6 +146,7 @@ function App() {
             <Suspense fallback={<SectionLoader />}><IranDeepDive /></Suspense>
             <Suspense fallback={<SectionLoader />}><CubeRoot /></Suspense>
             <Suspense fallback={<SectionLoader />}><History /></Suspense>
+            <Suspense fallback={<SectionLoader />}><EMPCalculator /></Suspense>
           </>
         )}
       </main>
