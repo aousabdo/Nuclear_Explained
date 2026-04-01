@@ -113,7 +113,10 @@ export function Navigation() {
       <nav aria-label="Section navigation" className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-bg-primary/90 backdrop-blur-sm border-b border-border">
         {mode === 'casual' ? (
           // Casual: chapter chips — tapping switches chapters
-          <div className="flex gap-1 px-3 pe-36 py-2 overflow-x-auto scrollbar-hide">
+          <div
+            className="flex gap-1 px-3 pe-44 py-2 overflow-x-auto scrollbar-hide"
+            style={{ maskImage: 'linear-gradient(to right, black calc(100% - 160px), transparent calc(100% - 10px))', WebkitMaskImage: 'linear-gradient(to right, black calc(100% - 160px), transparent calc(100% - 10px))' }}
+          >
             {CHAPTERS.map((chapter) => {
               const isActive = chapter.key === activeChapter
               return (
@@ -139,7 +142,10 @@ export function Navigation() {
           </div>
         ) : (
           // Expert: original flat scrollable pills
-          <div className="flex overflow-x-auto gap-1 ps-3 pe-36 py-2 scrollbar-hide">
+          <div
+            className="flex overflow-x-auto gap-1 ps-3 pe-44 py-2 scrollbar-hide"
+            style={{ maskImage: 'linear-gradient(to right, black calc(100% - 160px), transparent calc(100% - 10px))', WebkitMaskImage: 'linear-gradient(to right, black calc(100% - 160px), transparent calc(100% - 10px))' }}
+          >
             {sections.map((section) => (
               <button
                 key={section.id}
