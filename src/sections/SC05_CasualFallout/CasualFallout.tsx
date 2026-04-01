@@ -154,7 +154,7 @@ export default function CasualFallout() {
 
             <div className="bg-bg-secondary rounded-xl border border-border p-4 space-y-3">
               <h3 className="text-xs font-semibold text-text-muted uppercase tracking-wider">{t.casualFallout.windDirection}</h3>
-              <div className="grid grid-cols-4 gap-1.5">
+              <div className="grid grid-cols-4 gap-1">
                 {WIND_DIRS_LIST.map((wd, i) => (
                   <button
                     key={wd.label}

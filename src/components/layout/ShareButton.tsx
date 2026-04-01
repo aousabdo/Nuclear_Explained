@@ -38,7 +38,7 @@ export function ShareButton() {
   }
 
   return (
-    <div ref={menuRef} className="fixed bottom-20 end-6 z-50">
+    <div ref={menuRef} className="fixed bottom-20 end-4 md:end-6 z-50">
       {/* Share menu */}
       {open && (
         <div className="absolute bottom-12 end-0 bg-bg-secondary border border-border rounded-xl shadow-2xl overflow-hidden w-44">

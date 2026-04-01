@@ -40,13 +40,13 @@ export function Navigation() {
       </nav>
 
       {/* Mobile: top bar */}
-      <nav className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-bg-primary/90 backdrop-blur-sm border-b border-border">
+      <nav className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-bg-primary/90 backdrop-blur-sm border-b border-border">
         <div className="flex overflow-x-auto gap-1 px-3 py-2 scrollbar-hide">
           {sections.map((section) => (
             <button
               key={section.id}
               onClick={() => scrollToSection(section.id)}
-              className="text-xs whitespace-nowrap px-2.5 py-1 rounded-full transition-all flex-shrink-0"
+              className="text-xs whitespace-nowrap px-2 py-1 rounded-full transition-all flex-shrink-0"
               style={{
                 backgroundColor: activeSection === section.id ? section.accentColor + '20' : 'transparent',
                 color: activeSection === section.id ? section.accentColor : '#94a3b8',

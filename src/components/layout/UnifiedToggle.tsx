@@ -19,19 +19,24 @@ export function UnifiedToggle() {
     <>
       <button
         onClick={() => handleMode('casual')}
-        className={`px-3 py-2 text-sm font-semibold transition-all duration-200 rounded-full flex items-center gap-1 ${
+        title={t.modeToggle.visual}
+        className={`px-2 md:px-3 py-1.5 text-xs md:text-sm font-semibold transition-all duration-200 rounded-full flex items-center gap-1 ${
           mode === 'casual' ? 'bg-white/20 text-white' : 'text-white/40 hover:text-white/70'
         }`}
       >
-        {t.modeToggle.visual}
+        {/* Icon always visible, text hidden on mobile */}
+        <span>{t.modeToggle.visual.split(' ')[0]}</span>
+        <span className="hidden md:inline">{t.modeToggle.visual.split(' ').slice(1).join(' ')}</span>
       </button>
       <button
         onClick={() => handleMode('expert')}
-        className={`px-3 py-2 text-sm font-semibold transition-all duration-200 rounded-full flex items-center gap-1 ${
+        title={t.modeToggle.deepDive}
+        className={`px-2 md:px-3 py-1.5 text-xs md:text-sm font-semibold transition-all duration-200 rounded-full flex items-center gap-1 ${
           mode === 'expert' ? 'bg-white/20 text-white' : 'text-white/40 hover:text-white/70'
         }`}
       >
-        {t.modeToggle.deepDive}
+        <span>{t.modeToggle.deepDive.split(' ')[0]}</span>
+        <span className="hidden md:inline">{t.modeToggle.deepDive.split(' ').slice(1).join(' ')}</span>
       </button>
     </>
   )
@@ -40,7 +45,7 @@ export function UnifiedToggle() {
     <>
       <button
         onClick={() => handleLanguage('en')}
-        className={`px-3 py-2 text-sm font-semibold transition-all duration-200 rounded-full ${
+        className={`px-2 py-1.5 text-xs font-semibold transition-all duration-200 rounded-full ${
           language === 'en' ? 'bg-white/20 text-white' : 'text-white/40 hover:text-white/70'
         }`}
       >
@@ -48,7 +53,7 @@ export function UnifiedToggle() {
       </button>
       <button
         onClick={() => handleLanguage('ar')}
-        className={`px-3 py-2 text-sm font-semibold transition-all duration-200 rounded-full ${
+        className={`px-2 py-1.5 text-xs font-semibold transition-all duration-200 rounded-full ${
           language === 'ar' ? 'bg-white/20 text-white' : 'text-white/40 hover:text-white/70'
         }`}
       >
@@ -58,8 +63,8 @@ export function UnifiedToggle() {
   )
 
   return (
-    <div className="fixed top-4 right-4 z-50">
-      <div className={`flex items-center rounded-full border border-white/10 bg-black/50 backdrop-blur-md shadow-lg px-1 py-1 gap-1 ${language === 'ar' ? 'flex-row-reverse' : 'flex-row'}`}>
+    <div className="fixed top-1 right-1 md:top-4 md:right-4 z-50">
+      <div className={`flex items-center rounded-full border border-white/10 bg-black/60 backdrop-blur-md shadow-lg px-1 py-1 gap-0.5 md:gap-1 ${language === 'ar' ? 'flex-row-reverse' : 'flex-row'}`}>
         {language === 'ar' ? (
           <>
             {langButtons}

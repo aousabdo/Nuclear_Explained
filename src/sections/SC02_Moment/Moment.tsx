@@ -113,7 +113,7 @@ export default function Moment() {
         </div>
 
         {/* Step dots */}
-        <div className="flex justify-center gap-3">
+        <div className="flex justify-center gap-2 md:gap-3 overflow-x-auto px-2">
           {steps.map((s, i) => (
             <button
               key={i}

@@ -191,7 +191,7 @@ export default function Destruction() {
           </div>
 
           {/* Map */}
-          <BaseMap center={center} zoom={zoom}>
+          <BaseMap center={center} zoom={zoom} className="h-[320px] md:h-[480px] lg:h-[560px]">
             <MapUpdater center={center} zoom={zoom} />
             <EffectRings center={center} rings={rings} />
           </BaseMap>

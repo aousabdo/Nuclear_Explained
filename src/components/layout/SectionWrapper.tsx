@@ -15,9 +15,9 @@ export function SectionWrapper({ id, children, className = '', fullHeight = true
     <section
       ref={ref}
       id={id}
-      className={`relative w-full ${fullHeight ? 'min-h-screen' : ''} py-16 md:py-24 ${className}`}
+      className={`relative w-full ${fullHeight ? 'min-h-screen' : ''} pt-20 pb-12 md:pt-24 md:pb-20 ${className}`}
     >
-      <div className="max-w-6xl mx-auto px-6 md:px-10 lg:px-12">
+      <div className="max-w-6xl mx-auto px-4 md:px-10 lg:px-12">
         {children}
       </div>
     </section>

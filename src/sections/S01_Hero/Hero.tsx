@@ -154,7 +154,7 @@ export default function Hero() {
 
         {/* Stats row */}
         <motion.div
-          className="grid grid-cols-3 gap-4 pt-4"
+          className="grid grid-cols-3 gap-2 md:gap-4 pt-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.1 }}
@@ -166,7 +166,7 @@ export default function Hero() {
               whileHover={{ borderColor: 'rgba(239,68,68,0.3)', backgroundColor: 'rgba(239,68,68,0.04)' }}
               transition={{ duration: 0.2 }}
             >
-              <div className="text-2xl md:text-3xl font-black text-red-400 font-mono">{s.value}</div>
+              <div className="text-xl md:text-3xl font-black text-red-400 font-mono">{s.value}</div>
               <div className="text-[11px] text-text-muted leading-snug">{s.label}</div>
             </motion.div>
           ))}
