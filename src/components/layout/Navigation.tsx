@@ -112,56 +112,61 @@ export function Navigation() {
       {/* ─── Mobile: top bar ──────────────────────────────────────────────── */}
       <nav aria-label="Section navigation" className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-bg-primary/90 backdrop-blur-sm border-b border-border">
         {mode === 'casual' ? (
-          // Casual: chapter chips — tapping switches chapters
-          <div
-            className="flex gap-1 px-3 pe-44 py-2 overflow-x-auto scrollbar-hide"
-            style={{ maskImage: 'linear-gradient(to right, black calc(100% - 160px), transparent calc(100% - 10px))', WebkitMaskImage: 'linear-gradient(to right, black calc(100% - 160px), transparent calc(100% - 10px))' }}
-          >
-            {CHAPTERS.map((chapter) => {
-              const isActive = chapter.key === activeChapter
-              return (
-                <button
-                  key={chapter.key}
-                  onClick={() => {
-                    setActiveChapter(chapter.key)
-                    document.getElementById('chapter-nav')?.scrollIntoView({ behavior: 'smooth' })
-                  }}
-                  className="flex items-center gap-1 text-xs whitespace-nowrap px-3 py-1 rounded-full transition-all flex-shrink-0 font-semibold"
-                  aria-current={isActive ? 'true' : undefined}
-                  style={{
-                    backgroundColor: isActive ? chapter.color + '22' : 'transparent',
-                    color: isActive ? chapter.color : '#94a3b8',
-                    border: isActive ? `1px solid ${chapter.color}55` : '1px solid transparent',
-                  }}
-                >
-                  <span>{chapter.icon}</span>
-                  <span>{isAr ? chapter.labelAr : chapter.label}</span>
-                </button>
-              )
-            })}
+          // Casual: chapter chips — flex row, tabs take remaining space, spacer blocks toggle area
+          <div className="flex items-center">
+            <div className="flex-1 min-w-0 overflow-x-auto scrollbar-hide">
+              <div className="flex gap-1 px-3 py-2">
+                {CHAPTERS.map((chapter) => {
+                  const isActive = chapter.key === activeChapter
+                  return (
+                    <button
+                      key={chapter.key}
+                      onClick={() => {
+                        setActiveChapter(chapter.key)
+                        document.getElementById('chapter-nav')?.scrollIntoView({ behavior: 'smooth' })
+                      }}
+                      className="flex items-center gap-1 text-xs whitespace-nowrap px-3 py-1 rounded-full transition-all flex-shrink-0 font-semibold"
+                      aria-current={isActive ? 'true' : undefined}
+                      style={{
+                        backgroundColor: isActive ? chapter.color + '22' : 'transparent',
+                        color: isActive ? chapter.color : '#94a3b8',
+                        border: isActive ? `1px solid ${chapter.color}55` : '1px solid transparent',
+                      }}
+                    >
+                      <span>{chapter.icon}</span>
+                      <span>{isAr ? chapter.labelAr : chapter.label}</span>
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+            {/* Spacer that matches the width of the fixed UnifiedToggle so tabs never slide under it */}
+            <div className="w-40 flex-shrink-0" />
           </div>
         ) : (
           // Expert: original flat scrollable pills
-          <div
-            className="flex overflow-x-auto gap-1 ps-3 pe-44 py-2 scrollbar-hide"
-            style={{ maskImage: 'linear-gradient(to right, black calc(100% - 160px), transparent calc(100% - 10px))', WebkitMaskImage: 'linear-gradient(to right, black calc(100% - 160px), transparent calc(100% - 10px))' }}
-          >
-            {sections.map((section) => (
-              <button
-                key={section.id}
-                onClick={() => scrollToSection(section.id)}
-                className="text-xs whitespace-nowrap px-2 py-1 rounded-full transition-all flex-shrink-0"
-                aria-label={section.shortTitle}
-                aria-current={activeSection === section.id ? 'true' : undefined}
-                style={{
-                  backgroundColor: activeSection === section.id ? section.accentColor + '20' : 'transparent',
-                  color: activeSection === section.id ? section.accentColor : '#94a3b8',
-                  border: activeSection === section.id ? `1px solid ${section.accentColor}40` : '1px solid transparent',
-                }}
-              >
-                {section.shortTitle}
-              </button>
-            ))}
+          <div className="flex items-center">
+            <div className="flex-1 min-w-0 overflow-x-auto scrollbar-hide">
+              <div className="flex gap-1 ps-3 py-2">
+                {sections.map((section) => (
+                  <button
+                    key={section.id}
+                    onClick={() => scrollToSection(section.id)}
+                    className="text-xs whitespace-nowrap px-2 py-1 rounded-full transition-all flex-shrink-0"
+                    aria-label={section.shortTitle}
+                    aria-current={activeSection === section.id ? 'true' : undefined}
+                    style={{
+                      backgroundColor: activeSection === section.id ? section.accentColor + '20' : 'transparent',
+                      color: activeSection === section.id ? section.accentColor : '#94a3b8',
+                      border: activeSection === section.id ? `1px solid ${section.accentColor}40` : '1px solid transparent',
+                    }}
+                  >
+                    {section.shortTitle}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="w-40 flex-shrink-0" />
           </div>
         )}
       </nav>
