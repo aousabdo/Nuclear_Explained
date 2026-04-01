@@ -20,6 +20,7 @@ export function UnifiedToggle() {
       <button
         onClick={() => handleMode('casual')}
         title={t.modeToggle.visual}
+        aria-label="Switch to casual mode"
         className={`px-2 md:px-3 py-1.5 text-xs md:text-sm font-semibold transition-all duration-200 rounded-full flex items-center gap-1 ${
           mode === 'casual' ? 'bg-white/20 text-white' : 'text-white/40 hover:text-white/70'
         }`}
@@ -31,6 +32,7 @@ export function UnifiedToggle() {
       <button
         onClick={() => handleMode('expert')}
         title={t.modeToggle.deepDive}
+        aria-label="Switch to expert mode"
         className={`px-2 md:px-3 py-1.5 text-xs md:text-sm font-semibold transition-all duration-200 rounded-full flex items-center gap-1 ${
           mode === 'expert' ? 'bg-white/20 text-white' : 'text-white/40 hover:text-white/70'
         }`}
@@ -45,6 +47,7 @@ export function UnifiedToggle() {
     <>
       <button
         onClick={() => handleLanguage('en')}
+        aria-label="Switch to English"
         className={`px-2 py-1.5 text-xs font-semibold transition-all duration-200 rounded-full ${
           language === 'en' ? 'bg-white/20 text-white' : 'text-white/40 hover:text-white/70'
         }`}
@@ -53,6 +56,7 @@ export function UnifiedToggle() {
       </button>
       <button
         onClick={() => handleLanguage('ar')}
+        aria-label="Switch to Arabic"
         className={`px-2 py-1.5 text-xs font-semibold transition-all duration-200 rounded-full ${
           language === 'ar' ? 'bg-white/20 text-white' : 'text-white/40 hover:text-white/70'
         }`}

@@ -229,7 +229,7 @@ export default function NuclearQuiz() {
                 </h3>
 
                 {/* Options */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div role="radiogroup" aria-label="Answer choices" className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {(isAr ? question.optionsAr : question.options).map((opt, idx) => {
                     let bgColor = 'rgba(255,255,255,0.04)'
                     let borderColor = 'rgba(255,255,255,0.1)'
@@ -256,6 +256,7 @@ export default function NuclearQuiz() {
                         key={idx}
                         onClick={() => handleSelect(idx)}
                         disabled={isAnswered}
+                        aria-pressed={selected === idx}
                         className="flex items-center gap-3 rounded-xl border-2 px-4 py-3 text-left transition-all text-sm font-medium"
                         style={{
                           backgroundColor: bgColor,
@@ -287,6 +288,7 @@ export default function NuclearQuiz() {
                       className="overflow-hidden"
                     >
                       <div
+                        aria-live="polite"
                         className="rounded-xl border p-4 mt-2"
                         style={{
                           borderColor: selected === question.correct ? 'rgba(34,197,94,0.3)' : 'rgba(239,68,68,0.3)',

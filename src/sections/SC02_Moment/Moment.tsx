@@ -52,6 +52,8 @@ export default function Moment() {
         </div>
 
         <div
+          role="region"
+          aria-label="Detonation timeline"
           className="relative rounded-2xl overflow-hidden min-h-[420px] flex flex-col items-center justify-center border border-border"
           style={{ background: '#0a0a0f' }}
         >
@@ -81,7 +83,7 @@ export default function Moment() {
               <div className="text-sm font-mono font-bold tracking-widest text-text-muted uppercase">
                 {step.time}
               </div>
-              <div className="text-7xl md:text-8xl select-none" role="img">
+              <div className="text-7xl md:text-8xl select-none" role="img" aria-label={step.label}>
                 {STEP_ICONS[activeStep]}
               </div>
               <h3 className="text-3xl md:text-4xl font-black tracking-widest text-white">
@@ -96,6 +98,7 @@ export default function Moment() {
           {/* Arrows */}
           <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex justify-between px-4 pointer-events-none">
             <button
+              aria-label="Previous step"
               className={`pointer-events-auto w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center text-white transition-all ${activeStep === 0 ? 'opacity-20 cursor-default' : ''}`}
               onClick={() => handleArrow(Math.max(0, activeStep - 1))}
               disabled={activeStep === 0}
@@ -103,6 +106,7 @@ export default function Moment() {
               ‹
             </button>
             <button
+              aria-label="Next step"
               className={`pointer-events-auto w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/10 flex items-center justify-center text-white transition-all ${activeStep === steps.length - 1 ? 'opacity-20 cursor-default' : ''}`}
               onClick={() => handleArrow(Math.min(steps.length - 1, activeStep + 1))}
               disabled={activeStep === steps.length - 1}

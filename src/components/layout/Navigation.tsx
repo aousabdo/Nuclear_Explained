@@ -71,6 +71,7 @@ export function Navigation() {
     <>
       {/* ─── Desktop: fixed sidebar dots ─────────────────────────────────── */}
       <nav
+        aria-label="Section navigation"
         className={`hidden lg:flex fixed top-1/2 -translate-y-1/2 z-50 flex-col gap-1 ${language === 'ar' ? 'right-4' : 'left-4'}`}
       >
         {mode === 'casual' ? (
@@ -95,6 +96,8 @@ export function Navigation() {
                     onClick={() => scrollToSection(section.id)}
                     className="group relative flex items-center"
                     title={section.shortTitle}
+                    aria-label={section.shortTitle}
+                    aria-current={activeSection === section.id ? 'true' : undefined}
                   >
                     <div
                       className="w-2.5 h-2.5 rounded-full border-2 transition-all duration-300"
@@ -122,6 +125,8 @@ export function Navigation() {
               onClick={() => scrollToSection(section.id)}
               className="group relative flex items-center"
               title={section.shortTitle}
+              aria-label={section.shortTitle}
+              aria-current={activeSection === section.id ? 'true' : undefined}
             >
               <div
                 className="w-2.5 h-2.5 rounded-full border-2 transition-all duration-300"
@@ -142,7 +147,7 @@ export function Navigation() {
       </nav>
 
       {/* ─── Mobile: top bar ──────────────────────────────────────────────── */}
-      <nav className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-bg-primary/90 backdrop-blur-sm border-b border-border">
+      <nav aria-label="Section navigation" className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-bg-primary/90 backdrop-blur-sm border-b border-border">
         {mode === 'casual' ? (
           // Casual: grouped category chips
           <div>
@@ -182,6 +187,8 @@ export function Navigation() {
                       key={section.id}
                       onClick={() => scrollToSection(section.id)}
                       className="text-xs whitespace-nowrap px-2 py-1 rounded-full transition-all flex-shrink-0"
+                      aria-label={section.shortTitle}
+                      aria-current={activeSection === section.id ? 'true' : undefined}
                       style={{
                         backgroundColor: activeSection === section.id ? section.accentColor + '20' : 'transparent',
                         color: activeSection === section.id ? section.accentColor : '#94a3b8',
@@ -203,6 +210,8 @@ export function Navigation() {
                 key={section.id}
                 onClick={() => scrollToSection(section.id)}
                 className="text-xs whitespace-nowrap px-2 py-1 rounded-full transition-all flex-shrink-0"
+                aria-label={section.shortTitle}
+                aria-current={activeSection === section.id ? 'true' : undefined}
                 style={{
                   backgroundColor: activeSection === section.id ? section.accentColor + '20' : 'transparent',
                   color: activeSection === section.id ? section.accentColor : '#94a3b8',

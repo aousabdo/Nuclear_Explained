@@ -1,4 +1,5 @@
 import { Suspense, lazy, useEffect } from 'react'
+import { ErrorBoundary } from './components/layout/ErrorBoundary'
 import { Navigation } from './components/layout/Navigation'
 import { UnifiedToggle } from './components/layout/UnifiedToggle'
 import { ScrollProgress } from './components/layout/ScrollProgress'
@@ -9,7 +10,6 @@ import { KeyboardShortcuts } from './components/layout/KeyboardShortcuts'
 import { DoomsdayClock } from './components/layout/DoomsdayClock'
 import { useAppStore } from './hooks/useAppStore'
 import { useGeigerToggle } from './hooks/useGeiger'
-import { useSwipeNav } from './hooks/useSwipeNav'
 import { usePrefetchSections } from './hooks/usePrefetchSections'
 
 // Expert mode sections
@@ -43,8 +43,18 @@ const EMPCalculator = lazy(() => import('./sections/SC16_EMP/EMPCalculator'))
 
 function SectionLoader() {
   return (
-    <div className="min-h-[50vh] flex items-center justify-center">
-      <div className="text-text-muted text-sm animate-pulse">Loading section...</div>
+    <div className="relative w-full py-24 px-4">
+      <div className="max-w-6xl mx-auto space-y-6 animate-pulse">
+        {/* Title skeleton */}
+        <div className="h-8 w-64 bg-white/5 rounded-lg" />
+        <div className="h-4 w-96 bg-white/3 rounded" />
+        {/* Content skeleton rows */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+          {[1,2,3,4].map(i => (
+            <div key={i} className="h-40 rounded-2xl bg-white/3 border border-white/5" />
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
@@ -52,7 +62,6 @@ function SectionLoader() {
 function App() {
   const { mode, setMode, language, setLanguage } = useAppStore()
   const { enabled: geigerEnabled, toggle: toggleGeiger } = useGeigerToggle(1.2)
-  useSwipeNav()
   usePrefetchSections()
 
   // Read hash on mount
@@ -120,37 +129,87 @@ function App() {
 
       <main className="relative z-10 lg:pt-0 pt-12 lg:pl-12">
         {/* Hero is shared in both modes */}
-        <Suspense fallback={<SectionLoader />}><Hero /></Suspense>
+        <ErrorBoundary sectionId="hero">
+          <Suspense fallback={<SectionLoader />}><Hero /></Suspense>
+        </ErrorBoundary>
 
         {mode === 'casual' ? (
           <>
-            <Suspense fallback={<SectionLoader />}><Moment /></Suspense>
-            <Suspense fallback={<SectionLoader />}><Destruction /></Suspense>
-            <Suspense fallback={<SectionLoader />}><Scale /></Suspense>
-            <Suspense fallback={<SectionLoader />}><CasualFallout /></Suspense>
-            <Suspense fallback={<SectionLoader />}><Impact /></Suspense>
-            <Suspense fallback={<SectionLoader />}><NuclearWinter /></Suspense>
-            <Suspense fallback={<SectionLoader />}><Survival /></Suspense>
-            <Suspense fallback={<SectionLoader />}><MissileTrajectory /></Suspense>
-            <Suspense fallback={<SectionLoader />}><ArsenalMap /></Suspense>
-            <Suspense fallback={<SectionLoader />}><NearMiss /></Suspense>
-            <Suspense fallback={<SectionLoader />}><TestTimeline /></Suspense>
-            <Suspense fallback={<SectionLoader />}><CountryProfiles /></Suspense>
-            <Suspense fallback={<SectionLoader />}><RiskCard /></Suspense>
-            <Suspense fallback={<SectionLoader />}><NuclearQuiz /></Suspense>
+            <ErrorBoundary sectionId="c-moment">
+              <Suspense fallback={<SectionLoader />}><Moment /></Suspense>
+            </ErrorBoundary>
+            <ErrorBoundary sectionId="c-destruction">
+              <Suspense fallback={<SectionLoader />}><Destruction /></Suspense>
+            </ErrorBoundary>
+            <ErrorBoundary sectionId="c-scale">
+              <Suspense fallback={<SectionLoader />}><Scale /></Suspense>
+            </ErrorBoundary>
+            <ErrorBoundary sectionId="c-fallout">
+              <Suspense fallback={<SectionLoader />}><CasualFallout /></Suspense>
+            </ErrorBoundary>
+            <ErrorBoundary sectionId="c-impact">
+              <Suspense fallback={<SectionLoader />}><Impact /></Suspense>
+            </ErrorBoundary>
+            <ErrorBoundary sectionId="c-winter">
+              <Suspense fallback={<SectionLoader />}><NuclearWinter /></Suspense>
+            </ErrorBoundary>
+            <ErrorBoundary sectionId="c-survival">
+              <Suspense fallback={<SectionLoader />}><Survival /></Suspense>
+            </ErrorBoundary>
+            <ErrorBoundary sectionId="c-trajectory">
+              <Suspense fallback={<SectionLoader />}><MissileTrajectory /></Suspense>
+            </ErrorBoundary>
+            <ErrorBoundary sectionId="c-arsenal">
+              <Suspense fallback={<SectionLoader />}><ArsenalMap /></Suspense>
+            </ErrorBoundary>
+            <ErrorBoundary sectionId="c-nearmiss">
+              <Suspense fallback={<SectionLoader />}><NearMiss /></Suspense>
+            </ErrorBoundary>
+            <ErrorBoundary sectionId="c-timeline">
+              <Suspense fallback={<SectionLoader />}><TestTimeline /></Suspense>
+            </ErrorBoundary>
+            <ErrorBoundary sectionId="c-countries">
+              <Suspense fallback={<SectionLoader />}><CountryProfiles /></Suspense>
+            </ErrorBoundary>
+            <ErrorBoundary sectionId="c-risk">
+              <Suspense fallback={<SectionLoader />}><RiskCard /></Suspense>
+            </ErrorBoundary>
+            <ErrorBoundary sectionId="c-quiz">
+              <Suspense fallback={<SectionLoader />}><NuclearQuiz /></Suspense>
+            </ErrorBoundary>
           </>
         ) : (
           <>
-            <Suspense fallback={<SectionLoader />}><Basics /></Suspense>
-            <Suspense fallback={<SectionLoader />}><Effects /></Suspense>
-            <Suspense fallback={<SectionLoader />}><HeightOfBurst /></Suspense>
-            <Suspense fallback={<SectionLoader />}><BlastRadius /></Suspense>
-            <Suspense fallback={<SectionLoader />}><TacticalStrategic /></Suspense>
-            <Suspense fallback={<SectionLoader />}><Fallout /></Suspense>
-            <Suspense fallback={<SectionLoader />}><IranDeepDive /></Suspense>
-            <Suspense fallback={<SectionLoader />}><CubeRoot /></Suspense>
-            <Suspense fallback={<SectionLoader />}><History /></Suspense>
-            <Suspense fallback={<SectionLoader />}><EMPCalculator /></Suspense>
+            <ErrorBoundary sectionId="basics">
+              <Suspense fallback={<SectionLoader />}><Basics /></Suspense>
+            </ErrorBoundary>
+            <ErrorBoundary sectionId="effects">
+              <Suspense fallback={<SectionLoader />}><Effects /></Suspense>
+            </ErrorBoundary>
+            <ErrorBoundary sectionId="height-of-burst">
+              <Suspense fallback={<SectionLoader />}><HeightOfBurst /></Suspense>
+            </ErrorBoundary>
+            <ErrorBoundary sectionId="blast-radius">
+              <Suspense fallback={<SectionLoader />}><BlastRadius /></Suspense>
+            </ErrorBoundary>
+            <ErrorBoundary sectionId="tactical-strategic">
+              <Suspense fallback={<SectionLoader />}><TacticalStrategic /></Suspense>
+            </ErrorBoundary>
+            <ErrorBoundary sectionId="fallout">
+              <Suspense fallback={<SectionLoader />}><Fallout /></Suspense>
+            </ErrorBoundary>
+            <ErrorBoundary sectionId="iran">
+              <Suspense fallback={<SectionLoader />}><IranDeepDive /></Suspense>
+            </ErrorBoundary>
+            <ErrorBoundary sectionId="cube-root">
+              <Suspense fallback={<SectionLoader />}><CubeRoot /></Suspense>
+            </ErrorBoundary>
+            <ErrorBoundary sectionId="history">
+              <Suspense fallback={<SectionLoader />}><History /></Suspense>
+            </ErrorBoundary>
+            <ErrorBoundary sectionId="emp">
+              <Suspense fallback={<SectionLoader />}><EMPCalculator /></Suspense>
+            </ErrorBoundary>
           </>
         )}
       </main>
