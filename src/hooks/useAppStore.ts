@@ -1,6 +1,5 @@
 import { create } from 'zustand'
 
-type Mode = 'casual' | 'expert'
 type Language = 'en' | 'ar'
 
 export interface HeroCity {
@@ -12,21 +11,15 @@ export interface HeroCity {
 interface AppStore {
   activeSection: string
   setActiveSection: (id: string) => void
-  mode: Mode
-  setMode: (mode: Mode) => void
   language: Language
   setLanguage: (lang: Language) => void
   heroCity: HeroCity | null
   setHeroCity: (city: HeroCity | null) => void
-  activeChapter: string
-  setActiveChapter: (chapter: string) => void
 }
 
 export const useAppStore = create<AppStore>((set) => ({
   activeSection: '',
   setActiveSection: (id) => set({ activeSection: id }),
-  mode: 'casual',
-  setMode: (mode) => set({ mode }),
   language: 'en',
   setLanguage: (language) => {
     document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr'
@@ -35,6 +28,4 @@ export const useAppStore = create<AppStore>((set) => ({
   },
   heroCity: null,
   setHeroCity: (heroCity) => set({ heroCity }),
-  activeChapter: 'blast',
-  setActiveChapter: (activeChapter) => set({ activeChapter }),
 }))

@@ -1,5 +1,6 @@
 export interface Chapter {
   key: string
+  slug: string
   label: string
   labelAr: string
   icon: string
@@ -12,6 +13,7 @@ export interface Chapter {
 export const CHAPTERS: Chapter[] = [
   {
     key: 'blast',
+    slug: 'blast',
     label: 'Blast',
     labelAr: 'الانفجار',
     icon: '💥',
@@ -22,6 +24,7 @@ export const CHAPTERS: Chapter[] = [
   },
   {
     key: 'consequences',
+    slug: 'consequences',
     label: 'Consequences',
     labelAr: 'التداعيات',
     icon: '☢️',
@@ -32,6 +35,7 @@ export const CHAPTERS: Chapter[] = [
   },
   {
     key: 'threat',
+    slug: 'threat',
     label: 'Threat',
     labelAr: 'التهديد',
     icon: '🚀',
@@ -42,6 +46,7 @@ export const CHAPTERS: Chapter[] = [
   },
   {
     key: 'history',
+    slug: 'history',
     label: 'History',
     labelAr: 'التاريخ',
     icon: '📅',
@@ -52,6 +57,7 @@ export const CHAPTERS: Chapter[] = [
   },
   {
     key: 'you',
+    slug: 'your-risk',
     label: 'Your Risk',
     labelAr: 'مخاطرك',
     icon: '🎯',
@@ -64,6 +70,10 @@ export const CHAPTERS: Chapter[] = [
 
 export function getChapterByKey(key: string): Chapter | undefined {
   return CHAPTERS.find(c => c.key === key)
+}
+
+export function getChapterBySlug(slug: string): Chapter | undefined {
+  return CHAPTERS.find(c => c.slug === slug)
 }
 
 export function getChapterForSection(sectionId: string): Chapter | undefined {

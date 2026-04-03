@@ -18,9 +18,10 @@ const STATS_AR = [
   { value: '0.3 ثانية', label: 'الوقت اللازم لتبخير كل شيء داخل كرة النار' },
 ]
 
-export default function Hero() {
+export default function Hero({ variant = 'casual' }: { variant?: 'casual' | 'expert' }) {
   const t = useTranslation()
-  const { mode, language, setHeroCity } = useAppStore()
+  const { language, setHeroCity } = useAppStore()
+  const mode = variant
   const [citySelected, setCitySelected] = useState<string | null>(null)
   const isAr = language === 'ar'
   const stats = isAr ? STATS_AR : STATS_EN

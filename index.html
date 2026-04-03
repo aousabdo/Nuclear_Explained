@@ -11,9 +11,17 @@
     <meta name="author" content="Dr. Aous Abdo — Analytica Data Science Solutions">
     <link rel="canonical" href="https://nukes.analyticadss.com/">
 
+    <!-- GitHub Pages SPA path restoration -->
+    <script>
+      (function(){
+        var p = new URLSearchParams(window.location.search).get('p');
+        if (p) window.history.replaceState(null, '', '/' + p + window.location.hash);
+      })();
+    </script>
+
     <!-- hreflang alternates -->
-    <link rel="alternate" hreflang="en" href="https://nukes.analyticadss.com/#expert-en">
-    <link rel="alternate" hreflang="ar" href="https://nukes.analyticadss.com/#expert-ar">
+    <link rel="alternate" hreflang="en" href="https://nukes.analyticadss.com/">
+    <link rel="alternate" hreflang="ar" href="https://nukes.analyticadss.com/ar">
     <link rel="alternate" hreflang="x-default" href="https://nukes.analyticadss.com/">
 
     <!-- Theme color -->
@@ -95,7 +103,7 @@
   "@type": "Quiz",
   "name": "Nuclear Weapons IQ Test",
   "description": "Test your knowledge of nuclear weapons, history, and physics. 10 questions with explanations.",
-  "url": "https://nukes.analyticadss.com/#casual-en",
+  "url": "https://nukes.analyticadss.com/your-risk",
   "educationalLevel": "general",
   "about": { "@type": "Thing", "name": "Nuclear Weapons" },
   "author": { "@type": "Person", "name": "Dr. Aous Abdo" },
