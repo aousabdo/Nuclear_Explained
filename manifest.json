@@ -1,0 +1,21 @@
+{
+  "name": "Nuclear Explained",
+  "short_name": "NuclearXP",
+  "description": "Interactive nuclear weapons physics simulator — blast radii, fallout plumes, height of burst, and scaling laws.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0a0e1a",
+  "theme_color": "#ef4444",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/og-image.png",
+      "sizes": "1200x630",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["education", "science"],
+  "lang": "en",
+  "dir": "ltr"
+}

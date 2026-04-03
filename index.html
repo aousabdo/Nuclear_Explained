@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nuclear Explained — Interactive Nuclear Weapons Physics</title>
+
+    <!-- Primary -->
+    <meta name="description" content="Interactive nuclear weapons physics simulator. Explore blast radii, fallout plumes, height of burst optimization, and historical nuclear tests based on Glasstone &amp; Dolan scaling laws.">
+    <meta name="keywords" content="nuclear weapons, blast radius calculator, fallout simulator, nuclear physics, glasstone dolan, nuclear detonation, fission fusion">
+    <meta name="author" content="Dr. Aous Abdo — Analytica Data Science Solutions">
+    <link rel="canonical" href="https://nukes.analyticadss.com/">
+
+    <!-- GitHub Pages SPA path restoration -->
+    <script>
+      (function(){
+        var p = new URLSearchParams(window.location.search).get('p');
+        if (p) window.history.replaceState(null, '', '/' + p + window.location.hash);
+      })();
+    </script>
+
+    <!-- hreflang alternates -->
+    <link rel="alternate" hreflang="en" href="https://nukes.analyticadss.com/">
+    <link rel="alternate" hreflang="ar" href="https://nukes.analyticadss.com/ar">
+    <link rel="alternate" hreflang="x-default" href="https://nukes.analyticadss.com/">
+
+    <!-- Theme color -->
+    <meta name="theme-color" content="#ef4444">
+
+    <!-- PWA manifest -->
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nukes.analyticadss.com/">
+    <meta property="og:title" content="Nuclear Explained — Interactive Nuclear Weapons Physics">
+    <meta property="og:description" content="Interactive nuclear weapons physics simulator with blast calculators, fallout plume models, height-of-burst optimizer, and historical test data.">
+    <meta property="og:image" content="https://nukes.analyticadss.com/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Nuclear Explained — Blast radius calculator and fallout simulator">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="ar_AR">
+    <meta property="og:site_name" content="Nuclear Explained">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Nuclear Explained — Interactive Nuclear Weapons Physics">
+    <meta name="twitter:description" content="Blast radius calculator, fallout simulator, and nuclear physics explainer. Based on Glasstone &amp; Dolan scaling laws.">
+    <meta name="twitter:image" content="https://nukes.analyticadss.com/og-image.png">
+    <meta name="twitter:image:alt" content="Nuclear Explained — Interactive nuclear weapons physics">
+    <meta name="twitter:creator" content="@aousabdo">
+    <meta name="twitter:site" content="@aousabdo">
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☢️</text></svg>" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Google Search Console verification -->
+    <meta name="google-site-verification" content="DjQqyHhR_Y2dK0BY3q1Pyk3AOsoppfyo2flqGDyVWRQ" />
+
+    <!-- Cloudflare Web Analytics (free, privacy-respecting, no cookies) -->
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "477e35d300014112a6b5c4c8c985ddcb"}'></script>
+
+    <!-- JSON-LD structured data -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Nuclear Explained",
+  "alternateName": "النووي ببساطة",
+  "url": "https://nukes.analyticadss.com/",
+  "description": "Interactive nuclear weapons physics simulator with blast calculators, fallout plume models, and historical nuclear test data.",
+  "applicationCategory": "EducationalApplication",
+  "inLanguage": ["en", "ar"],
+  "author": {
+    "@type": "Person",
+    "name": "Dr. Aous Abdo",
+    "honorificPrefix": "Dr.",
+    "hasCredential": [
+      { "@type": "EducationalOccupationalCredential", "credentialCategory": "degree", "name": "Ph.D., Astroparticle Physics" },
+      { "@type": "EducationalOccupationalCredential", "credentialCategory": "degree", "name": "M.S., Nuclear Physics" }
+    ],
+    "affiliation": {
+      "@type": "Organization",
+      "name": "Analytica Data Science Solutions",
+      "url": "https://analyticadss.com"
+    },
+    "alumniOf": {
+      "@type": "Organization",
+      "name": "Los Alamos National Laboratory, NASA, U.S. Department of Defense"
+    }
+  },
+  "keywords": "nuclear weapons, blast radius, fallout, nuclear physics"
+}
+    </script>
+
+    <!-- Quiz structured data for Google rich results -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Quiz",
+  "name": "Nuclear Weapons IQ Test",
+  "description": "Test your knowledge of nuclear weapons, history, and physics. 10 questions with explanations.",
+  "url": "https://nukes.analyticadss.com/your-risk",
+  "educationalLevel": "general",
+  "about": { "@type": "Thing", "name": "Nuclear Weapons" },
+  "author": { "@type": "Person", "name": "Dr. Aous Abdo" },
+  "hasPart": [
+    { "@type": "Question", "name": "How many nuclear warheads exist worldwide today?", "acceptedAnswer": { "@type": "Answer", "text": "Approximately 12,500 nuclear warheads as of 2024, down from a peak of ~70,000 in 1986." } },
+    { "@type": "Question", "name": "What was the yield of the Hiroshima bomb?", "acceptedAnswer": { "@type": "Answer", "text": "~15 kilotons. Modern warheads average 200–750 kt — 13–50× more powerful." } },
+    { "@type": "Question", "name": "How long does it take an ICBM to reach Moscow from the US?", "acceptedAnswer": { "@type": "Answer", "text": "Approximately 28 minutes. ICBMs travel at ~7 km/s." } }
+  ]
+}
+    </script>
+    <script type="module" crossorigin src="/assets/index-IwTSQGgz.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/rolldown-runtime-COnpUsM8.js">
+    <link rel="modulepreload" crossorigin href="/assets/preload-helper-D4M6sveU.js">
+    <link rel="modulepreload" crossorigin href="/assets/leaflet-DM7ozVB9.js">
+    <link rel="modulepreload" crossorigin href="/assets/motion-BRz7MhFG.js">
+    <link rel="modulepreload" crossorigin href="/assets/state-Ce76jB4Q.js">
+    <link rel="stylesheet" crossorigin href="/assets/leaflet-vh-t_kPv.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-BiCacQ15.css">
+  <link rel="manifest" href="/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/registerSW.js"></script></head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

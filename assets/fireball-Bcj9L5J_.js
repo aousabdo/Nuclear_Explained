@@ -1,0 +1,1 @@
+function e(e,t=!1){let n=66*e**.4;return t?n*1.3:n}export{e as t};
